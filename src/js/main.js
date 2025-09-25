@@ -9,141 +9,183 @@ import Alert from 'bootstrap/js/dist/alert';
 // or, specify which plugins you need:
 import { Tooltip, Toast, Popover } from 'bootstrap';
 
-// Declare the list element once for cleaner code
-const todoList = document.getElementById("todo-list");
+// for loading html first
+document.addEventListener('DOMContentLoaded', () => {
 
-// function addTask(task) {
-//   const li = document.createElement("li");
-//   li.className = "list-group-item d-flex justify-content-between align-items-center";
-//   li.innerHTML = `
-//     <span class="task-text">${task}</span>
-//     <input type="text" class="form-control edit-input" style="display: none;" value="${task}">
-//     <div class="btn-group gap-2">
-//       <button class="btn btn-primary btn-sm edit-btn rounded-1" >&#9998;</button>
-//       <button class="btn btn-danger btn-sm delete-btn rounded-1">&#x2715;</button>
-//     </div>
-//   `;
-//   todoList.appendChild(li);
-//   saveTasks();
-// }
-
-// Event listener for form submission
-
-// This function adds a new task to the list
-
-function addTask(task) {
+  // Global variables to store tasks and the list element
   const todoList = document.getElementById("todo-list");
-  const li = document.createElement("li");
-  li.className = "list-group-item d-flex justify-content-between align-items-center";
-  li.innerHTML = `
-    <input type="checkbox" class="form-check-input done-toggle me-2">
-    <span class="task-text flex-grow-1">${task}</span>
-    <input type="text" class="form-control edit-input" style="display: none;" value="${task}">
-    <div class="btn-group gap-2">
-      <button class="btn btn-primary btn-sm edit-btn rounded-1" >&#9998;</button>
-      <button class="btn btn-danger btn-sm delete-btn rounded-1">&#x2715;</button>
-    </div>
-  `;
-  todoList.appendChild(li);
-  saveTasks();
-}
+  let tasks = [];
 
-document.getElementById("todo-form").addEventListener("submit",
-  function (event) {
+  // Helper function to create the list item HTML from a task object
+  function createTaskElement(task) {
+    const li = document.createElement("li");
+    li.className = "list-group-item d-flex justify-content-between align-items-center";
+    li.dataset.id = task.id; // Add data-id to the list item itself
+
+    if (task.completed) {
+      li.classList.add('task-completed');
+    }
+
+    let priorityClass = '';
+    switch (task.priority) {
+      case 3: priorityClass = 'badge text-bg-danger'; break;
+      case 2: priorityClass = 'badge text-bg-warning'; break;
+      case 1: priorityClass = 'badge text-bg-success'; break;
+    }
+
+    li.innerHTML = `
+      <input type="checkbox" class="form-check-input done-toggle me-2" ${task.completed ? 'checked' : ''}>
+      <span class="task-text flex-grow-1">${task.text}</span>
+      <span class="${priorityClass}">${task.priority === 3 ? 'High' : (task.priority === 2 ? 'Medium' : 'Low')}</span>
+      <input type="text" class="form-control edit-input" style="display: none;" value="${task.text}">
+      <div class="btn-group gap-2 ms-2">
+        <button class="btn btn-primary btn-sm edit-btn rounded-1" data-id="${task.id}">&#9998;</button>
+        <button class="btn btn-danger btn-sm delete-btn rounded-1" data-id="${task.id}">&#x2715;</button>
+      </div>
+    `;
+    return li;
+  }
+
+  // sort tasks function
+  function sortAndRenderTasks() {
+    tasks.sort((a, b) => {
+      if (a.completed && !b.completed) return 1;
+      if (!a.completed && b.completed) return -1;
+      if (!a.completed && !b.completed) {
+        return b.priority - a.priority;
+      }
+      return 0;
+    });
+
+    todoList.innerHTML = '';
+    tasks.forEach(task => {
+      todoList.appendChild(createTaskElement(task));
+    });
+
+    saveTasks();
+  }
+
+  // save tasks to local storage
+  function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  // Function to load tasks from local storage
+  function loadTasks() {
+    const storedTasks = localStorage.getItem('tasks');
+    if (storedTasks) {
+      tasks = JSON.parse(storedTasks);
+      tasks.forEach(task => {
+        if (!task.id) {
+          // If old task has no ID, assign a new string ID
+          task.id = Date.now().toString() + Math.random().toString().substring(2, 6);
+        }
+      });
+      sortAndRenderTasks();
+    }
+  }
+
+  // --- Event Listeners ---
+
+  // Event listener for form submission
+  document.getElementById("todo-form").addEventListener("submit", function (event) {
     event.preventDefault();
     const taskInput = document.getElementById("todo-input");
-    const task = taskInput.value.trim();
-    if (task !== "") {
-      addTask(task);
-      saveTasks();
+    const priorityInput = document.getElementById("priority-input");
+    const taskText = taskInput.value.trim();
+    const taskPriority = parseInt(priorityInput.value);
+
+    if (taskText !== "") {
+      const newTask = {
+        // Generate a unique string ID
+        id: Date.now().toString() + Math.random().toString().substring(2, 6),
+        text: taskText,
+        completed: false,
+        priority: taskPriority
+      };
+      tasks.push(newTask);
+      sortAndRenderTasks();
       taskInput.value = "";
     }
   });
 
-// Event listener for delete button click
-todoList.addEventListener("click",
-  function (event) {
-    if (event.target.classList.contains("delete-btn")) {
-      event.target.parentElement.parentElement.remove();
-      saveTasks();
+  // Event listeners for list item actions (delete, edit)
+  todoList.addEventListener("click", function (event) {
+    const target = event.target;
+    const li = target.closest('li');
+
+    if (target.classList.contains("delete-btn")) {
+      const taskId = li.dataset.id;
+      const taskText = li.querySelector('.task-text').textContent;
+
+      // Set the task text in the modal
+      document.getElementById('taskToDeleteText').textContent = taskText;
+
+      // Set the ID on the confirm button for later use
+      document.getElementById('confirmDeleteBtn').dataset.id = taskId;
+
+      // Show the modal
+      const deleteConfirmationModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
+      deleteConfirmationModal.show();
     }
-  });
 
-// Event listener for edit button click
-todoList.addEventListener("click", function (event) {
-  if (event.target.classList.contains("edit-btn")) {
-    const taskText = event.target.parentElement
-      .parentElement.querySelector(".task-text");
-    const editInput = event.target.parentElement
-      .parentElement.querySelector(".edit-input");
-    if (taskText.style.display !== "none") {
-      taskText.style.display = "none";
-      editInput.style.display = "block";
-      editInput.focus();
-      event.target.innerHTML = "&#10004;";
-    } else {
-      taskText.textContent = editInput.value;
-      taskText.style.display = "inline";
-      editInput.style.display = "none";
-      event.target.innerHTML = "&#9998;";
-      saveTasks();
-    }
-  }
-});
+    if (target.classList.contains("edit-btn")) {
+      const taskId = li.dataset.id; // Get ID as a string
+      const taskTextSpan = li.querySelector(".task-text");
+      const editInput = li.querySelector(".edit-input");
 
-document.getElementById("todo-list").addEventListener("change", function (event) {
-  if (event.target.classList.contains("done-toggle")) {
-    const li = event.target.parentElement;
-    li.classList.toggle('task-completed');
-    saveTasks();
-  }
-});
-
-function saveTasks() {
-  const tasks = [];
-  todoList.querySelectorAll('li').forEach(li => {
-    const taskText = li.querySelector('span').textContent;
-    const isCompleted = li.classList.contains('text-decoration-line-through');
-    tasks.push({ text: taskText, completed: isCompleted });
-  });
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-// function loadTasks() {
-//   const storedTasks = localStorage.getItem('tasks');
-//   if (storedTasks) {
-//     const tasks = JSON.parse(storedTasks);
-//     tasks.forEach(task => {
-//       addTask(task.text);
-//       if (task.completed) {
-//         const lastChild = todoList.lastChild;
-//         if (lastChild) {
-//           lastChild.classList.add('text-decoration-line-through');
-//         }
-//       }
-//     });
-//   }
-// }
-
-// Initial call to load tasks
-// This function loads tasks from local storage
-function loadTasks() {
-  const storedTasks = localStorage.getItem('tasks');
-  if (storedTasks) {
-    const tasks = JSON.parse(storedTasks);
-    tasks.forEach(task => {
-      addTask(task.text);
-      const todoList = document.getElementById("todo-list");
-      const lastChild = todoList.lastChild;
-      if (task.completed) {
-        // Add the new class and check the checkbox
-        lastChild.classList.add('task-completed');
-        const checkbox = lastChild.querySelector('.done-toggle');
-        if (checkbox) {
-          checkbox.checked = true;
+      if (taskTextSpan.style.display !== "none") {
+        taskTextSpan.style.display = "none";
+        editInput.style.display = "block";
+        editInput.focus();
+        target.innerHTML = "&#10004;";
+      } else {
+        const updatedText = editInput.value;
+        const taskToEdit = tasks.find(task => task.id === taskId);
+        if (taskToEdit) {
+          taskToEdit.text = updatedText;
         }
+        sortAndRenderTasks();
+        target.innerHTML = "&#9998;";
       }
-    });
-  }
-}
-loadTasks();
+    }
+  });
+
+  document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+    const taskId = this.dataset.id;
+
+    // Find the task and delete it
+    tasks = tasks.filter(task => task.id !== taskId);
+
+    // Re-render the list to show the change
+    sortAndRenderTasks();
+
+    // Hide the modal after deletion
+    const deleteConfirmationModal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmationModal'));
+    if (deleteConfirmationModal) {
+      deleteConfirmationModal.hide();
+    }
+  });
+
+  // Event listener for task completion toggle
+  todoList.addEventListener("change", function (event) {
+    if (event.target.classList.contains("done-toggle")) {
+      const li = event.target.closest('li');
+      const taskId = li.dataset.id; // Get ID as a string
+      const taskToToggle = tasks.find(task => task.id === taskId);
+      if (taskToToggle) {
+        taskToToggle.completed = event.target.checked;
+        sortAndRenderTasks();
+      }
+    }
+  });
+
+  // Event listener for the "Clear All" button
+  document.getElementById("clear-all-btn").addEventListener("click", function () {
+    tasks = [];
+    sortAndRenderTasks();
+  });
+
+  // Initial call to load tasks
+  loadTasks();
+});
