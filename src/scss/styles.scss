@@ -1,0 +1,22 @@
+// Import all of Bootstrap’s CSS
+@import "bootstrap/scss/bootstrap";
+
+body {
+        height: 100vh;
+        background-color: #244142;
+        font-family: "Poppins";
+}
+.container-head {
+        border-radius: 5px;
+        background-color: #192124;
+        gap: 100px;
+}
+
+.container-head h1 {
+        color: white;
+}
+
+.task-completed .task-text {
+        text-decoration: line-through;
+        opacity: 0.5;
+}
