@@ -13,10 +13,23 @@ document.addEventListener("DOMContentLoaded", () => {
   let tasks = [];
 
   const todoAPI = {
+
     // Get all tasks
-    async getAllTasks() {
+    async getAllTasks(searchTerm = "", searchCategory = "") {
       try {
-        const response = await fetch(`${API_BASE_URL}/todos`);
+        let url = `${API_BASE_URL}/todos`;
+        const queryParams = [];
+
+        if (searchTerm.trim() && searchCategory) {
+          queryParams.push(`search=${encodeURIComponent(searchTerm)}`);
+          queryParams.push(`category=${encodeURIComponent(searchCategory)}`);
+        }
+
+        if (queryParams.length) {
+          url += `?${queryParams.join("&")}`;
+        }
+
+        const response = await fetch(url);
         if (!response.ok) throw new Error("Failed to fetch tasks");
         return await response.json();
       } catch (error) {
@@ -95,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!tags || !Array.isArray(tags) || tags.length === 0) return '';
     const badges = tags
       .filter(tag => tag.trim() !== '')
-      .map(tag => `<span class="badge rounded-pill text-bg-info me-1">${tag.trim().toLowerCase()}</span>`)
+      .map(tag => `<span class="badge fw-light rounded-pill tags-bg me-1">${tag.trim().toLowerCase()}</span>`)
       .join('');
     return `<div class="d-flex flex-wrap mb-1">${badges}</div>`;
   };
@@ -124,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     li.innerHTML = `
-      ${createTagsHtml(task.tags)}
+      
       <div class="d-flex align-items-center justify-content-center justify-content-md-between ">
         <div class"d-flex">
         <input type="checkbox" class="form-check-input done-toggle me-2" ${task.completed ? "checked" : ""
@@ -147,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </svg></button>
         </div>
       </div>
+      ${createTagsHtml(task.tags)}
     `;
     return li;
   }
@@ -177,9 +191,139 @@ document.addEventListener("DOMContentLoaded", () => {
       tasks = await todoAPI.getAllTasks();
       sortAndRenderTasks();
     } catch (error) {
-      // alert("Failed to load tasks. Make sure the backend server is running.");
       console.error("Failed to load tasks:", error);
     }
+  }
+
+  //search function changes
+
+  const sortTasks = (tasks) => {
+    return tasks.sort((a, b) => {
+      if (b.priority !== a.priority) {
+        return b.priority - a.priority;
+      }
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+  };
+
+  const renderTasks = (tasksToRender) => {
+    if (!tasksToRender.length) {
+      const searchInput = document.getElementById("search-term");
+      const message = searchInput && searchInput.value.trim() !== ""
+        ? `No results found for "${searchInput.value.trim()}".`
+        : 'No tasks found. Try adding one.';
+
+      todoList.innerHTML = `<div class="alert alert-info text-center" role="alert">${message}</div>`;
+      return;
+    }
+
+    todoList.innerHTML = tasksToRender
+      .map(
+        (task) => `
+        <div
+          class="list-group-item d-flex align-items-center todo-item task-${task.completed ? "completed" : "pending"
+          } priority-${task.priority}"
+          data-id="${task.id}"
+        >
+          <input
+            class="form-check-input me-3"
+            type="checkbox"
+            value=""
+            id="task-check-${task.id}"
+            ${task.completed ? "checked" : ""}
+            data-id="${task.id}"
+          />
+          <div class="task-content">
+            <span class="task-text">${task.text}</span>
+            <div class="task-meta">
+              <span class="badge bg-secondary me-2">Priority: ${task.priority
+          }</span>
+              ${task.tags.map(tag => `<span class="badge bg-info text-dark me-1">${tag}</span>`).join('')}
+            </div>
+          </div>
+          <div class="actions-group ms-auto">
+            <button
+              class="action-btn edit-btn"
+              data-id="${task.id}"
+              data-bs-toggle="modal"
+              data-bs-target="#editTaskModal"
+              title="Edit Task"
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+            <button
+              class="action-btn delete-btn"
+              data-id="${task.id}"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteConfirmationModal"
+              title="Delete Task"
+            >
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </div>
+        </div>
+      `
+      )
+      .join("");
+
+    attachEventListeners();
+  };
+
+  const sortAndRenderTasksSearch = () => {
+    tasks.sort((a, b) => {
+      if (a.completed !== b.completed) {
+        return a.completed ? 1 : -1;
+      }
+      return b.priority - a.priority;
+    });
+
+    todoList.innerHTML = "";
+    if (tasks.length === 0) {
+      const emptyMessage = document.createElement("li");
+      emptyMessage.className =
+        "list-group-item text-center p-3 text-muted border-0 bg-transparent";
+      emptyMessage.textContent = "No tasks found. Start adding or searching!";
+      todoList.appendChild(emptyMessage);
+    } else {
+      tasks.forEach((task) => {
+        todoList.appendChild(createTaskElement(task));
+      });
+    }
+  };
+
+  const loadTasksSearch = async (searchTerm = "", searchCategory = "") => {
+    try {
+      const fetchedTasks = await todoAPI.getAllTasks(
+        searchTerm,
+        searchCategory
+      );
+      tasks = fetchedTasks;
+      sortAndRenderTasksSearch();
+    } catch (error) {
+      todoList.innerHTML = '<div class="alert alert-danger text-center" role="alert">Failed to load tasks. Please check the server connection.</div>';
+    }
+  };
+
+  const searchForm = document.getElementById("search-form");
+  if (searchForm) {
+    searchForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const searchTerm = document.getElementById("search-term").value.trim();
+      const searchCategory = document.getElementById("search-category").value;
+
+      loadTasksSearch(searchTerm, searchCategory);
+    });
+  }
+
+  const searchTermInput = document.getElementById("search-term");
+  if (searchTermInput) {
+    searchTermInput.addEventListener("input", function (e) {
+      const searchTerm = e.target.value.trim();
+
+      if (searchTerm === "") {
+        loadTasksSearch("", "");
+      }
+    });
   }
 
   // --- Event Listeners ---
@@ -339,5 +483,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   // Initial call to load tasks
-  loadTasks();
+  loadTasksSearch();
 });

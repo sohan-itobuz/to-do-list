@@ -9,6 +9,7 @@ $color-4: #6c757d;
 $color-5: #adb5bd;
 $color-6: #ced4da;
 $color-7: #dee2e6;
+$color-bg: #005f73;
 $color-accent: #ef8354;
 $color-accent-dark: #cc6b40;
 
@@ -18,7 +19,7 @@ $color-accent-dark: #cc6b40;
 
 body {
   height: 100vh;
-  background: $color-1;
+  background: $color-bg;
   color: $color-7;
 }
 
@@ -76,6 +77,7 @@ body {
 }
 
 .form-select {
+  flex-grow: 0;
   color: $color-7;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23dee2e6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
 }
@@ -100,6 +102,10 @@ body {
   color: $color-7;
   transform: translateY(-1px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.btn-add:nth-of-type(2):hover {
+  transform: translateY(0px);
 }
 
 .btn-add:active {
@@ -179,8 +185,8 @@ body {
   transition: color 0.2s ease;
 }
 
-.action-btn:hover {
-  color: $color-7;
+.edit-btn:hover {
+  color: #e74c3c;
 }
 
 .delete-btn:hover {
@@ -227,4 +233,8 @@ body {
   background-color: $color-4;
   /* Subtle background color */
   opacity: 0.9;
+}
+
+.tags-bg {
+  background-color: $color-bg;
 }
