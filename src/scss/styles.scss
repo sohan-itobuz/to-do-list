@@ -1,67 +1,207 @@
 // Import all of Bootstrap’s CSS
 @import "bootstrap/scss/bootstrap";
 
+
 $color-1: #212529;
-$color-2: #343a40;
+$color-2: #2c3035;
 $color-3: #495057;
 $color-4: #6c757d;
 $color-5: #adb5bd;
 $color-6: #ced4da;
 $color-7: #dee2e6;
+$color-accent: #ef8354;
+$color-accent-dark: #cc6b40;
 
 * {
-  font-family: "Poppins";
+  font-family: "Poppins", sans-serif;
 }
 
 body {
   height: 100vh;
   background: $color-1;
-
-}
-
-.main-container {
-  border-radius: 5px;
-  background-color: $color-2;
-  gap: 100px;
-
-  h1 {
-    color: $color-7;
-  }
-
-  .main-container-card {
-    border: none;
-
-    .main-container-card-body {
-      border: none;
-      background-color: $color-3;
-    }
-  }
-}
-
-
-.task-completed {
-  .task-text {
-    text-decoration: line-through;
-    opacity: 0.5;
-  }
+  color: $color-7;
 }
 
 .main {
-  height: 100%;
+  padding: 20px 10px;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.btn-add {
-  background-color: $color-6;
+.main-container {
+  max-width: 550px;
+  width: 100%;
+  border-radius: 1rem;
+  background-color: $color-2;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba($color-accent, 0.3);
+
+  h1 {
+    color: $color-7;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .main-container-card {
+    border: none;
+    background-color: transparent;
+
+    .main-container-card-body {
+      border: none;
+      background-color: $color-3;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+    }
+  }
 }
 
-.btn-add:hover {
+
+
+.input-group>.form-control,
+.input-group>.form-select {
   background-color: $color-2;
+  border: 1px solid $color-4;
   color: $color-7;
 }
 
-.li-background {
-  background-color: #ef8354;
+.input-group>.form-control:focus,
+.input-group>.form-select:focus {
+  background-color: $color-2;
+  color: $color-7;
+  border-color: $color-accent;
+  box-shadow: 0 0 0 0.25rem rgba($color-accent, 0.25);
+}
+
+.form-select {
+  color: $color-7;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23dee2e6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+.form-control::placeholder {
+  color: $color-5;
+  opacity: 1;
+}
+
+
+.btn-add {
+  background-color: $color-accent;
+  color: $color-1;
+  font-weight: 600;
+  border: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-add:hover {
+  background-color: $color-accent-dark;
+  color: $color-7;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.btn-add:active {
+  transform: translateY(0);
+}
+
+
+
+.list-group {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.todo-item {
+  background-color: $color-2;
+  border-left: 5px solid transparent;
+  border-bottom: 1px solid $color-4;
+  color: $color-7;
+  padding: 0.75rem 1rem;
+  transition: background-color 0.2s ease, border-left 0.2s ease;
+  cursor: pointer;
+}
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+.todo-item:hover {
+  background-color: lighten($color-2, 5%);
+}
+
+.task-text {
+  flex-grow: 1;
+  margin-right: 15px;
+  font-size: 1.1rem;
+}
+
+.task-completed {
+  background-color: $color-1;
+
+  .task-text {
+    text-decoration: line-through;
+    opacity: 0.5;
+    color: $color-5;
+  }
+}
+
+
+.priority-3 {
+  // High Priority
+  border-left-color: #e74c3c !important;
+}
+
+.priority-2 {
+  // Medium Priority
+  border-left-color: $color-accent !important;
+}
+
+.priority-1 {
+  // Low Priority
+  border-left-color: #2ecc71 !important;
+}
+
+.actions-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.action-btn {
+  color: $color-5;
+  background: transparent;
+  border: none;
+  padding: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.action-btn:hover {
+  color: $color-7;
+}
+
+.delete-btn:hover {
+  color: #e74c3c;
+}
+
+
+.modal-content {
+  background-color: $color-2;
+  color: $color-7;
+  border-radius: 0.75rem;
+}
+
+.modal-header {
+  border-bottom: 1px solid $color-3;
+}
+
+.modal-footer {
+  border-top: 1px solid $color-3;
+}
+
+.btn-close {
+  filter: invert(1);
 }

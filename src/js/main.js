@@ -7,12 +7,11 @@ import * as bootstrap from "bootstrap";
 // API base URL
 const API_BASE_URL = "http://localhost:3001/api";
 
-// Wrap all the code in a listener to ensure the HTML is loaded first
+// for ensurig the HTML is loaded first
 document.addEventListener("DOMContentLoaded", () => {
   const todoList = document.getElementById("todo-list");
   let tasks = [];
 
-  // API functions
   const todoAPI = {
     // Get all tasks
     async getAllTasks() {
@@ -91,11 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   };
 
-  // Helper function to create the list item HTML from a task object
   function createTaskElement(task) {
     const li = document.createElement("li");
     li.className =
-      "list-group-item d-flex justify-content-between align-items-center";
+      "list-group-item d-md-flex align-items-center align-items-md-start justify-content-between";
     li.dataset.id = task.id;
 
     if (task.completed) {
@@ -121,19 +119,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="task-text flex-grow-1">${task.text}</span>
       <input type="text" class="form-control edit-input" style="display: none;" value="${task.text
       }">
-      <span class="${priorityClass}">${task.priority === 3 ? "High" : task.priority === 2 ? "Medium" : "Low"
+      <span class="${priorityClass} ">${task.priority === 3 ? "High" : task.priority === 2 ? "Medium" : "Low"
       }</span>
       <div class="btn-group gap-2 ms-2">
-        <button class="btn btn-primary btn-sm edit-btn rounded-1" data-id="${task.id
-      }">✏️</button>
-        <button class="btn btn-danger btn-sm delete-btn rounded-1" data-id="${task.id
-      }">❌</button>
+        <button class="btn  btn-sm edit-btn rounded-1" data-id="${task.id
+      }"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="pointer-events: none;">
+  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+</svg></button>
+        <button class="btn  btn-sm delete-btn rounded-1" data-id="${task.id
+      }"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16" style="pointer-events: none;">
+  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+</svg></button>
       </div>
     `;
     return li;
   }
 
-  // Function to sort tasks and render the list
+  // sort tasks and render the list
   function sortAndRenderTasks() {
     const sortedTasks = [...tasks].sort((a, b) => {
       if (a.completed && !b.completed) return 1;
@@ -150,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Function to load tasks from backend
+  // load tasks from backend
   async function loadTasks() {
     try {
       tasks = await todoAPI.getAllTasks();
@@ -162,7 +165,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Event Listeners ---
 
-  // Event listener for form submission
   document
     .getElementById("todo-form")
     .addEventListener("submit", async function (event) {
@@ -188,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-  // Event listeners for list item actions (delete, edit)
+  // (delete, edit)
   todoList.addEventListener("click", function (event) {
     const target = event.target;
     const li = target.closest("li");
@@ -212,23 +214,21 @@ document.addEventListener("DOMContentLoaded", () => {
       const editInput = li.querySelector(".edit-input");
 
       if (taskTextSpan.style.display !== "none") {
-        // Start editing
+
         taskTextSpan.style.display = "none";
         editInput.style.display = "block";
         editInput.focus();
         target.textContent = "✅";
       } else {
-        // Save editing
+
         const updatedText = editInput.value.trim();
         if (updatedText) {
           updateTask(taskId, { text: updatedText });
         }
-        target.textContent = "✏️";
       }
     }
   });
 
-  // Event listener for task completion toggle
   todoList.addEventListener("change", async function (event) {
     if (event.target.classList.contains("done-toggle")) {
       const li = event.target.closest("li");
@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Helper function to update task
+  // update task
   async function updateTask(taskId, updates) {
     try {
       const updatedTask = await todoAPI.updateTask(taskId, updates);
@@ -250,12 +250,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (error) {
       alert("Failed to update task. Please try again.");
-      // Reload tasks to sync with server
       await loadTasks();
     }
   }
 
-  // Event listener for the "Clear All" button
+
   document
     .getElementById("clear-all-btn")
     .addEventListener("click", function () {
@@ -265,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
       deleteAllConfirmationModal.show();
     });
 
-  // Confirm delete single task
+
   document
     .getElementById("confirmDeleteBtn")
     .addEventListener("click", async function () {
@@ -286,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-  // Confirm delete all tasks
+
   document
     .getElementById("confirmDeleteAllBtn")
     .addEventListener("click", async function () {
