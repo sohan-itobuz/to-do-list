@@ -205,3 +205,26 @@ body {
 .btn-close {
   filter: invert(1);
 }
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  /* Allows tags to wrap on small screens */
+  gap: 6px;
+  margin-bottom: 0.75rem;
+  /* Space between tags and task text */
+  margin-top: 0.25rem;
+}
+
+.tag-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: $color-7;
+  /* Light text on tag */
+  background-color: $color-4;
+  /* Subtle background color */
+  opacity: 0.9;
+}
