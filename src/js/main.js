@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Helper function to create the list item HTML from a task object
   function createTaskElement(task) {
     const li = document.createElement("li");
-    li.className = "list-group-item d-flex justify-content-between align-items-center";
+    li.className = "list-group-item d-flex justify-content-between align-items-center li-background";
     li.dataset.id = task.id; // Add data-id to the list item itself
 
     if (task.completed) {
@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     li.innerHTML = `
       <input type="checkbox" class="form-check-input done-toggle me-2" ${task.completed ? 'checked' : ''}>
       <span class="task-text flex-grow-1">${task.text}</span>
+      <input type="text" class="form-control edit-input " style="display: none;" value="${task.text}">
       <span class="${priorityClass}">${task.priority === 3 ? 'High' : (task.priority === 2 ? 'Medium' : 'Low')}</span>
-      <input type="text" class="form-control edit-input" style="display: none;" value="${task.text}">
       <div class="btn-group gap-2 ms-2">
         <button class="btn btn-primary btn-sm edit-btn rounded-1" data-id="${task.id}">&#9998;</button>
         <button class="btn btn-danger btn-sm delete-btn rounded-1" data-id="${task.id}">&#x2715;</button>

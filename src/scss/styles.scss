@@ -1,23 +1,40 @@
 // Import all of Bootstrap’s CSS
 @import "bootstrap/scss/bootstrap";
 
+$color-1: #212529;
+$color-2: #343a40;
+$color-3: #495057;
+$color-4: #6c757d;
+$color-5: #adb5bd;
+$color-6: #ced4da;
+$color-7: #dee2e6;
+
 * {
   font-family: "Poppins";
 }
 
 body {
   height: 100vh;
-  background-color: #244142;
+  background: $color-1;
 
 }
 
-.container-head {
+.main-container {
   border-radius: 5px;
-  background-color: #192124;
+  background-color: $color-2;
   gap: 100px;
 
   h1 {
-    color: white;
+    color: $color-7;
+  }
+
+  .main-container-card {
+    border: none;
+
+    .main-container-card-body {
+      border: none;
+      background-color: $color-3;
+    }
   }
 }
 
@@ -29,9 +46,22 @@ body {
   }
 }
 
-.main-section {
+.main {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.btn-add {
+  background-color: $color-6;
+}
+
+.btn-add:hover {
+  background-color: $color-2;
+  color: $color-7;
+}
+
+.li-background {
+  background-color: #ef8354;
 }

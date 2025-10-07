@@ -107,16 +107,19 @@
       </div>
     </section> -->
 
-    <section class="align-items-center main-section">
+    <section class="align-items-center main">
       <div
-        class="container rounded-4 container-head align-items-center pt-lg-5 pt-2 pb-lg-5 pb-2"
+        class="container rounded-4 main-container align-items-center pt-lg-5 pt-2 pb-lg-5 pb-2"
       >
         <h1 class="text-center mb-lg-4">To-Do List</h1>
         <div class="row justify-content-center">
           <div class="col-md-8">
-            <div class="card">
-              <div class="card-body gap-2">
-                <form id="todo-form" class="d-sm-flex flex-column gap-2">
+            <div class="card main-container-card rounded-4">
+              <div class="card-body main-container-card-body gap-2 rounded-4">
+                <form
+                  id="todo-form"
+                  class="d-sm-flex flex-column gap-2 main-form"
+                >
                   <div class="input-group mb-2">
                     <input
                       type="text"
@@ -131,15 +134,15 @@
                       <option value="1">Low</option>
                     </select>
                   </div>
-                  <button class="btn btn-success rounded-1 w-100" type="submit">
+                  <button class="btn btn-add rounded-1 w-100" type="submit">
                     Add
                   </button>
                 </form>
-                <ul class="list-group mt-3" id="todo-list"></ul>
+                <ul class="list-group mt-3 li-background" id="todo-list"></ul>
                 <div class="mt-3">
                   <button
                     id="clear-all-btn"
-                    class="btn btn-secondary rounded-1 w-100"
+                    class="btn btn-add rounded-1 w-100"
                   >
                     Clear All
                   </button>
