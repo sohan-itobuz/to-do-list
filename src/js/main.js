@@ -105,9 +105,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //for tags
   function createTagsHtml(tags) {
-    if (!tags || !Array.isArray(tags) || tags.length === 0) return '';
+    if (!tags || !Array.isArray(tags) || !tags.length) return '';
     const badges = tags
-      .filter(tag => tag.trim() !== '')
+      .filter(tag => tag.trim())
       .map(tag => `<span class="badge fw-light rounded-pill tags-bg me-1">${tag.trim().toLowerCase()}</span>`)
       .join('');
     return `<div class="d-flex flex-wrap mb-1">${badges}</div>`;
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const renderTasks = (tasksToRender) => {
     if (!tasksToRender.length) {
       const searchInput = document.getElementById("search-term");
-      const message = searchInput && searchInput.value.trim() !== ""
+      const message = searchInput && searchInput.value.trim()
         ? `No results found for "${searchInput.value.trim()}".`
         : 'No tasks found. Try adding one.';
 
@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
     searchTermInput.addEventListener("input", function (e) {
       const searchTerm = e.target.value.trim();
 
-      if (searchTerm === "") {
+      if (!searchTerm) {
         loadTasksSearch("", "");
       }
     });
@@ -339,7 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const tagsInput = document.getElementById("tags-input");
       const rawTags = tagsInput ? tagsInput.value.trim() : "";
 
-      if (taskText !== "") {
+      if (taskText) {
         try {
           const tagsArray = rawTags.split(',')
             .map(tag => tag.trim())
