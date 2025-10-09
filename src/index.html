@@ -328,8 +328,13 @@
                     </svg>
                   </button>
                 </form>
-
-                <ul class="list-group" id="todo-list"></ul>
+                <div data-bs-spy="scroll" data-bs-target="search-form">
+                  <ul
+                    class="list-group list-group-flush scrollable-area"
+                    id="todo-list"
+                    data-bs-spy="scroll"
+                  ></ul>
+                </div>
 
                 <div class="mt-4">
                   <button

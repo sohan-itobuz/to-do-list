@@ -229,12 +229,17 @@ body {
   font-size: 0.75rem;
   font-weight: 500;
   color: $color-7;
-  /* Light text on tag */
+
   background-color: $color-4;
-  /* Subtle background color */
+
   opacity: 0.9;
 }
 
 .tags-bg {
   background-color: $color-bg;
+}
+
+.scrollable-area {
+  max-height: 294px;
+  overflow-y: auto;
 }
