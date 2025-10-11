@@ -170,33 +170,6 @@ function createTaskElement(task) {
   return li;
 }
 
-// function sortAndRenderTasks() {
-//   // const sortedTasks = [...tasks].sort((a, b) => {
-//   //   if (a.completed && !b.completed) return 1;
-//   //   if (!a.completed && b.completed) return -1;
-//   //   if (!a.completed && !b.completed) {
-//   //     return b.priority - a.priority;
-//   //   }
-//   //   return 0;
-//   // });
-
-//   todoList.innerHTML = "";
-
-//   if (!tasks.length) {
-//     const emptyMessage = document.createElement("li");
-//     emptyMessage.className =
-//       "list-group-item text-center p-3 text-muted border-0 bg-transparent";
-//     emptyMessage.textContent = "No tasks found. Start adding or searching!";
-//     todoList.appendChild(emptyMessage);
-//   }
-
-//   sortedTasks.forEach((task) => {
-//     if (!task.tags) {
-//       task.tags = [];
-//     }
-//     todoList.appendChild(createTaskElement(task));
-//   });
-// }
 
 const sortAndRenderTasksSearch = () => {
   // tasks.sort((a, b) => {
