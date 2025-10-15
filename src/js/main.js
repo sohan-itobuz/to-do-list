@@ -440,6 +440,8 @@ import { todoAPI } from './api.js';
 import { renderTasks } from './dom.js';
 import { initializeEventHandlers } from './events.js';
 
+// window.location.href = '../pages/loginPage.html';
+
 const todoList = document.getElementById("todo-list");
 let tasks = [];
 
