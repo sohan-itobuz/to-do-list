@@ -3,11 +3,12 @@ import "../scss/login.scss";
 
 // Import all of Bootstrap’s JS
 import * as bootstrap from "bootstrap";
-import { authAPI } from "./authApi";
+import authApi from "./authApi.js";
+const authAPI = new authApi();
 
 const loginForm = document.querySelector('form');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
+const emailInput = document.getElementById('email-input');
+const passwordInput = document.getElementById('password-input');
 const submitButton = document.querySelector('button[type="submit"]');
 
 async function handleLogin(event) {

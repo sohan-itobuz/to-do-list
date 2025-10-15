@@ -4,7 +4,8 @@ import "../scss/otp.scss";
 
 // Import all of Bootstrap’s JS
 import * as bootstrap from "bootstrap";
-import { authAPI } from "./authApi";
+import authApi from "./authApi.js";
+const authAPI = new authApi();
 
 function OTPInput() {
   const inputs = document.querySelectorAll('#otp > *[id]');
@@ -93,7 +94,7 @@ async function handleResendOTP() {
   } catch (error) {
     alert(error.message || 'Failed to resend OTP. Please try again.');
   } finally {
-    resendLink.textContent = originalText;
+    // resendLink.textContent = originalText;
     resendLink.style.pointerEvents = 'auto';
   }
 }

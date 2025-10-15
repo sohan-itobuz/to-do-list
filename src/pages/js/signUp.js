@@ -4,7 +4,8 @@ import "../scss/login.scss";
 // Import all of Bootstrap's JS
 import * as bootstrap from "bootstrap";
 
-import { authAPI } from "./authApi";
+import authApi from "./authApi.js";
+const authAPI = new authApi();
 
 const signupForm = document.getElementById('signup-form');
 const emailInput = document.getElementById('email');
@@ -12,29 +13,10 @@ const passwordInput = document.getElementById('password');
 const submitButton = document.getElementById('submit-btn');
 
 async function handleSignup(event) {
-  console.log('Form submission started');
   event.preventDefault();
 
   const email = emailInput.value.trim();
   const password = passwordInput.value;
-
-
-  // if (!email || !password) {
-  //   console.log('Validation failed: Missing fields');
-  //   showError('Please fill in all fields');
-  //   return;
-  // }
-
-  // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  // if (!emailRegex.test(email)) {
-  //   showError('Please enter a valid email address');
-  //   return;
-  // }
-
-  // if (password.length < 6) {
-  //   showError('Password must be at least 6 characters long');
-  //   return;
-  // }
 
   const originalText = submitButton.textContent;
   submitButton.textContent = 'Signing up...';

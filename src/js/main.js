@@ -435,6 +435,10 @@ import "../scss/styles.scss";
 // Import all of Bootstrap's JS
 import * as bootstrap from "bootstrap";
 
+const accessToken = localStorage.getItem('access-token');
+if (!accessToken) {
+  window.location.href = './pages/loginPage.html';
+}
 // Import modules
 import { todoAPI } from './api.js';
 import { renderTasks } from './dom.js';
@@ -477,6 +481,7 @@ async function updateTask(taskId, updates) {
     await loadTasksSearch();
   }
 }
+
 
 initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSearch, updateTask);
 

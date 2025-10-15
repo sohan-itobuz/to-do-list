@@ -1,150 +1,149 @@
-const API_BASE_URL = "http://localhost:3001/api";
+import axios from "axios";
+const API_BASE_URL = "http://localhost:3001/api/auth";
 
-export const authAPI = {
+export default class authApi {
+  api = axios.create({
+    baseURL: API_BASE_URL,
+  });
+
+
   async register(email, password) {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/sign-up`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      // const response = await fetch(`${API_BASE_URL}/auth/sign-up`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ email, password }),
+      // });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Registration failed");
-      }
+      const response = await this.api.post(`/sign-up`, { email, password });
 
-      return await response.json();
     } catch (error) {
       console.error("Error registering user:", error);
       throw error;
     }
-  },
+  }
 
   async login(email, password) {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      // const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ email, password }),
+      // });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed");
-      }
+      const response = await this.api.post(`/login`, { email, password });
 
-      const data = await response.json();
+      localStorage.setItem('access-token', response.data.accessToken);
+      localStorage.setItem('refresh-token', response.data.refreshToken);
 
-      // // Store both tokens
-      // if (data.accessToken && data.refreshToken) {
-      //   TokenManager.setTokens(data.accessToken, data.refreshToken);
-      // } else if (data.token) {
-      //   // Backward compatibility: if only one token is provided
-      //   TokenManager.setTokens(data.token, data.token);
-      // }
-
-      return data;
     } catch (error) {
       console.error("Error logging in:", error);
       throw error;
     }
-  },
+  }
 
   async verifyOTP(email, otp) {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, otp }),
-      });
+      // const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ email, otp }),
+      // });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "OTP verification failed");
-      }
+      const response = await this.api.post(`/verify-otp`, { email, otp });
 
-      const data = await response.json();
-
-      // // Store both tokens
-      // if (data.accessToken && data.refreshToken) {
-      //   TokenManager.setTokens(data.accessToken, data.refreshToken);
-      // } else if (data.token) {
-      //   // Backward compatibility: if only one token is provided
-      //   TokenManager.setTokens(data.token, data.token);
-      // }
-
-      return data;
+      return response;
     } catch (error) {
       console.error("Error verifying OTP:", error);
       throw error;
     }
-  },
+  }
 
   async resendOTP(email) {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/send-otp`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
+      // const response = await fetch(`${API_BASE_URL}/auth/send-otp`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ email }),
+      // });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to resend OTP");
-      }
+      await this.api.post(`/send-otp`, { email });
 
-      return await response.json();
     } catch (error) {
       console.error("Error resending OTP:", error);
       throw error;
     }
-  },
+  }
+
+  async forgetPasswordSendOtp(email) {
+    try {
+      await this.api.post(`/forget-password/send-otp`, { email });
+
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+      throw error;
+    }
+  }
+
+  async forgetPasswordVerifyOtp(email, otp) {
+    try {
+      await this.api.post(`/forget-password/verify-otp`, { email, otp });
+
+    } catch (error) {
+      console.error("Error in otp verification", error);
+      throw error;
+    }
+  }
+
+  async forgetPasswordReset(email, newPassword) {
+    try {
+      await this.api.post(`/forget-password/reset`, { email, newPassword });
+
+    } catch (error) {
+      console.error("Error in password reset", error);
+      throw error;
+    }
+  }
 
   logout() {
     TokenManager.clearTokens();
     window.location.href = './pages/loginPage.html';
-  },
+  }
 
   isAuthenticated() {
     return TokenManager.isAuthenticated();
-  },
+  }
 
   getToken() {
     return TokenManager.getAccessToken();
-  },
+  }
 
   // Add refresh token endpoint
   async refreshToken() {
     try {
-      const refreshToken = TokenManager.getRefreshToken();
-      if (!refreshToken) {
-        throw new Error('No refresh token available');
-      }
+      // const response = await fetch(`${APIInterceptor.API_BASE_URL}/auth/refresh`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ refreshToken }),
+      // });
 
-      const response = await fetch(`${APIInterceptor.API_BASE_URL}/auth/refresh`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ refreshToken }),
-      });
+      const response = await this.api.post(`/refresh-token`);
 
       if (!response.ok) {
         throw new Error('Token refresh failed');
       }
 
-      const data = await response.json();
-      TokenManager.setTokens(data.accessToken, data.refreshToken);
-      return data;
+      return response;
     } catch (error) {
       console.error('Token refresh error:', error);
       TokenManager.clearTokens();
