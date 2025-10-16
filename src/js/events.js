@@ -1,5 +1,12 @@
-import { todoAPI } from './api.js';
+// Import our custom CSS
+import "../scss/styles.scss";
+
+// Import all of Bootstrap's JS
+import * as bootstrap from "bootstrap";
+
+import todoApi from './api.js';
 import { renderTasks } from './dom.js';
+const todoAPI = new todoApi();
 
 export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSearch, updateTask) {
   // Search form
@@ -52,33 +59,35 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
 
   // Add task form
   document.getElementById("todo-form").addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const taskInput = document.getElementById("todo-input");
-    const priorityInput = document.getElementById("priority-input");
-    const taskText = taskInput.value.trim();
-    const taskPriority = parseInt(priorityInput.value);
-    const tagsInput = document.getElementById("tags-input");
-    const rawTags = tagsInput ? tagsInput.value.trim() : "";
 
-    if (taskText) {
-      try {
+
+    try {
+      event.preventDefault();
+      const taskInput = document.getElementById("todo-input");
+      const priorityInput = document.getElementById("priority-input");
+      const taskText = taskInput.value.trim();
+      const taskPriority = parseInt(priorityInput.value);
+      const tagsInput = document.getElementById("tags-input");
+      const rawTags = tagsInput ? tagsInput.value : "";
+      if (taskText) {
         const tagsArray = rawTags.split(',')
           .map(tag => tag.trim())
           .filter(tag => tag.length > 0);
 
         const newTask = await todoAPI.createTask({
-          text: taskText,
-          priority: taskPriority,
-          tags: tagsArray,
+          taskText,
+          taskPriority,
+          tagsArray,
         });
 
         tasks.push(newTask);
         renderTasks(tasks, todoList);
         taskInput.value = "";
         if (tagsInput) tagsInput.value = "";
-      } catch (error) {
-        alert("Failed to create task. Please try again.");
       }
+    } catch (error) {
+      alert("Failed to create task. Please try again.");
+      console.log(error);
     }
   });
 

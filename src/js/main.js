@@ -440,11 +440,10 @@ if (!accessToken) {
   window.location.href = './pages/loginPage.html';
 }
 // Import modules
-import { todoAPI } from './api.js';
+import todoApi from './api.js';
 import { renderTasks } from './dom.js';
 import { initializeEventHandlers } from './events.js';
-
-// window.location.href = '../pages/loginPage.html';
+const todoAPI = new todoApi();
 
 const todoList = document.getElementById("todo-list");
 let tasks = [];
@@ -464,7 +463,7 @@ const loadTasksSearch = async (searchTerm = "", searchCategory = "") => {
     tasks = fetchedTasks;
     renderTasks(tasks, todoList);
   } catch (error) {
-    todoList.innerHTML = '<div class="alert alert-danger text-center" role="alert">Failed to load tasks. Please check the server connection.</div>';
+    todoList.innerHTML = '<div class="alert alert-danger text-center" role="alert">Failed to load tasks.</div>';
   }
 };
 

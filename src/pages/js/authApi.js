@@ -20,8 +20,8 @@ export default class authApi {
       const response = await this.api.post(`/sign-up`, { email, password });
 
     } catch (error) {
-      console.error("Error registering user:", error);
-      throw error;
+      // console.error("Error registering user:", error);
+      throw error.response.data;
     }
   }
 
@@ -41,8 +41,7 @@ export default class authApi {
       localStorage.setItem('refresh-token', response.data.refreshToken);
 
     } catch (error) {
-      console.error("Error logging in:", error);
-      throw error;
+      throw error.response.data;
     }
   }
 
@@ -60,8 +59,8 @@ export default class authApi {
 
       return response;
     } catch (error) {
-      console.error("Error verifying OTP:", error);
-      throw error;
+      // console.error("Error verifying OTP:", error);
+      throw error.response.data;
     }
   }
 
@@ -78,8 +77,8 @@ export default class authApi {
       await this.api.post(`/send-otp`, { email });
 
     } catch (error) {
-      console.error("Error resending OTP:", error);
-      throw error;
+      // console.error("Error resending OTP:", error);
+      throw error.response.data;
     }
   }
 
@@ -88,8 +87,8 @@ export default class authApi {
       await this.api.post(`/forget-password/send-otp`, { email });
 
     } catch (error) {
-      console.error("Error resending OTP:", error);
-      throw error;
+      // console.error("Error resending OTP:", error);
+      throw error.response.data;
     }
   }
 
@@ -98,8 +97,8 @@ export default class authApi {
       await this.api.post(`/forget-password/verify-otp`, { email, otp });
 
     } catch (error) {
-      console.error("Error in otp verification", error);
-      throw error;
+      // console.error("Error in otp verification", error);
+      throw error.response.data;
     }
   }
 
@@ -108,25 +107,26 @@ export default class authApi {
       await this.api.post(`/forget-password/reset`, { email, newPassword });
 
     } catch (error) {
-      console.error("Error in password reset", error);
-      throw error;
+      // console.error("Error in password reset", error);
+      throw error.response.data;
     }
   }
 
-  logout() {
-    TokenManager.clearTokens();
+  async logout() {
+    localStorage.clear();
     window.location.href = './pages/loginPage.html';
   }
 
-  isAuthenticated() {
-    return TokenManager.isAuthenticated();
-  }
+  // isAuthenticated() {
+  //   return TokenManager.isAuthenticated();
+  // }
 
-  getToken() {
-    return TokenManager.getAccessToken();
-  }
+  // getToken() {
+  //   return TokenManager.getAccessToken();
+  // }
 
   // Add refresh token endpoint
+
   async refreshToken() {
     try {
       // const response = await fetch(`${APIInterceptor.API_BASE_URL}/auth/refresh`, {
@@ -145,9 +145,8 @@ export default class authApi {
 
       return response;
     } catch (error) {
-      console.error('Token refresh error:', error);
-      TokenManager.clearTokens();
-      throw error;
+      // console.error('Token refresh error:', error);
+      throw error.response.data;
     }
   }
 };
