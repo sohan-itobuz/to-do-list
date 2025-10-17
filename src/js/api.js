@@ -1,6 +1,6 @@
 import axios from 'axios';
 const API_BASE_URL = "http://localhost:3001/api";
-import { loadTasks } from './main.js';
+import { loadTasksSearch } from './main.js';
 
 export default class todoApi {
   api = axios.create({
@@ -71,7 +71,7 @@ export default class todoApi {
     );
   }
 
-  async getAllTasks(searchTerm = "all", searchCategory = "all") {
+  async getAllTasks(searchTerm = "", searchCategory = "") {
     try {
       // let url = `${API_BASE_URL}/todos`;
       // const queryParams = [];
@@ -92,6 +92,7 @@ export default class todoApi {
       // }
 
       const response = this.api.get(`/todos/?search=${searchTerm}&category=${searchCategory}`);
+      // const response = this.api.get(`/todos/`, searchTerm, searchCategory);
 
       // if (!response.ok) throw new Error("Failed to fetch tasks");
       // return await response.json();
@@ -106,30 +107,15 @@ export default class todoApi {
 
   async createTask(task) {
     try {
-      // const response = await fetch(`${API_BASE_URL}/todos`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(task),
-      // });
-      // const formData = new FormData();
-      // formData.append('text', text);
-      // formData.append('priority', priority);
-      // //JSON.stringify(task.tags)
-      // formData.append('tags', tags);
       const { taskText, taskPriority, tagsArray } = task;
 
-      const response = this.api.post(`/todos/`, {
+      const response = await this.api.post(`/todos/`, {
         text: taskText,
         priority: taskPriority,
         tags: tagsArray
       });
 
-      // if (!response.ok) throw new Error("Failed to create task");
-      // console.log(response);
-      const data = (await response).data;
-      loadTasks();
+      const data = response.data;
       return data;
 
     } catch (error) {
@@ -140,20 +126,10 @@ export default class todoApi {
 
   async updateTask(id, updates) {
     try {
-      // const response = await fetch(`${API_BASE_URL}/todos/${id}`, {
-      //   method: "PUT",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(updates),
-      // });
+      const response = await this.api.put(`/todos/${id}`, updates);
 
-      const response = this.api.put(`/todos/${id}`, { updates });
-
-      if (!response.ok) throw new Error("Failed to update task");
-
-      loadTasks();
-      return await response;
+      const data = response.data;
+      return data;
 
     } catch (error) {
       console.error("Error updating task:", error);
@@ -163,14 +139,10 @@ export default class todoApi {
 
   async deleteTask(id) {
     try {
-      // const response = await fetch(`${API_BASE_URL}/todos/${id}`, {
-      //   method: "DELETE",
-      // });
+      const response = await this.api.delete(`/todos/${id}`);
 
-      const response = this.api.delete(`/todos/${id}`);
-      if (!response.ok) throw new Error("Failed to delete task");
+      return response.data;
 
-      return await response;
     } catch (error) {
       console.error("Error deleting task:", error);
       throw error;
@@ -183,10 +155,10 @@ export default class todoApi {
       //   method: "DELETE",
       // });
 
-      const response = this.api.delete(`/todos`);
+      const response = await this.api.delete(`/todos`);
       // if (!response.ok) throw new Error("Failed to delete all tasks");
 
-      return await response;
+      return response;
     } catch (error) {
       console.error("Error deleting all tasks:", error);
       throw error;

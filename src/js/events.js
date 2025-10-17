@@ -3,12 +3,14 @@ import "../scss/styles.scss";
 
 // Import all of Bootstrap's JS
 import * as bootstrap from "bootstrap";
-
+import { renderTodos } from "./main.js";
 import todoApi from './api.js';
 import { renderTasks } from './dom.js';
 const todoAPI = new todoApi();
 
+
 export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSearch, updateTask) {
+
   // Search form
   const searchForm = document.getElementById("search-form");
   if (searchForm) {
@@ -16,7 +18,7 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
       e.preventDefault();
       const searchTerm = document.getElementById("search-term").value.trim();
       const searchCategory = document.getElementById("search-category").value;
-      loadTasksSearch(searchTerm, searchCategory);
+      renderTodos(searchTerm, searchCategory);
     });
   }
 
@@ -26,41 +28,40 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
     searchTermInput.addEventListener("input", function (e) {
       const searchTerm = e.target.value.trim();
       if (!searchTerm) {
-        loadTasksSearch("", "");
+        renderTodos("", "");
       }
+      // renderTodos(searchTerm);
     });
   }
 
   // Filter buttons
   document.getElementById("all-btn").addEventListener("click", function (e) {
     e.preventDefault();
-    loadTasksSearch("", "");
+    renderTodos("", "");
   });
 
   document.getElementById("high-btn").addEventListener("click", function (e) {
     e.preventDefault();
-    loadTasksSearch("3", "priority");
+    renderTodos("3", "priority");
   });
 
   document.getElementById("mid-btn").addEventListener("click", function (e) {
     e.preventDefault();
-    loadTasksSearch("2", "priority");
+    renderTodos("2", "priority");
   });
 
   document.getElementById("low-btn").addEventListener("click", function (e) {
     e.preventDefault();
-    loadTasksSearch("1", "priority");
+    renderTodos("1", "priority");
   });
 
   document.getElementById("completed-btn").addEventListener("click", function (e) {
     e.preventDefault();
-    loadTasksSearch("true", "completed");
+    renderTodos("true", "completed");
   });
 
-  // Add task form
+  // create task event 
   document.getElementById("todo-form").addEventListener("submit", async function (event) {
-
-
     try {
       event.preventDefault();
       const taskInput = document.getElementById("todo-input");
@@ -74,14 +75,16 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
           .map(tag => tag.trim())
           .filter(tag => tag.length > 0);
 
-        const newTask = await todoAPI.createTask({
+        await todoAPI.createTask({
           taskText,
           taskPriority,
           tagsArray,
         });
+        // console.log(newTask);
 
-        tasks.push(newTask);
-        renderTasks(tasks, todoList);
+        // tasks.push(newTask);
+        // renderTasks(tasks, todoList);
+        renderTodos();
         taskInput.value = "";
         if (tagsInput) tagsInput.value = "";
       }
@@ -157,12 +160,7 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
     const taskId = this.dataset.id;
     try {
       await todoAPI.deleteTask(taskId);
-      const taskIndex = tasks.findIndex(task => task._id === taskId);
-      if (taskIndex !== -1) {
-        tasks.splice(taskIndex, 1);
-      }
-      renderTasks(tasks, todoList);
-      loadTasks(); //to refresh the list after deletion
+      renderTodos();
 
       const deleteConfirmationModal = bootstrap.Modal.getInstance(
         document.getElementById("deleteConfirmationModal")
@@ -179,8 +177,7 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
   document.getElementById("confirmDeleteAllBtn").addEventListener("click", async function () {
     try {
       await todoAPI.deleteAllTasks();
-      tasks.length = 0;
-      renderTasks(tasks, todoList);
+      renderTodos();
 
       const deleteAllConfirmationModal = bootstrap.Modal.getInstance(
         document.getElementById("deleteAllConfirmationModal")
@@ -192,4 +189,15 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
       alert("Failed to delete all tasks. Please try again.");
     }
   });
+
+  //logout button implement left
+  // const logoutButton = document.querySelector('.logout');
+
+  // logoutButton.addEventListener('click', () => {
+  //   localStorage.removeItem('access-token');
+  //   localStorage.removeItem('refresh-token');
+
+  //   window.location.reload();
+  // });
+
 }
