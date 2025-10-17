@@ -32,15 +32,20 @@ export default class todoApi {
 
         if (
           error.response &&
-          error.response.data.message === 'jwt expired' &&
+          error.response.status === 401 &&
           !originalRequest._retry
         ) {
           originalRequest._retry = true;
 
           try {
-            const response = await axios.post(
+            const response = await axios.get(
               'http://localhost:3001/api/auth/refresh-token',
-              { refreshToken: localStorage.getItem('refresh-token') }
+              {
+                headers: {
+                  Authorization:
+                    'Bearer ' + localStorage.getItem('refresh-token'),
+                },
+              }
             );
             console.log(response);
 
@@ -57,9 +62,6 @@ export default class todoApi {
             }
           } catch (error) {
             console.log(error);
-            // localStorage.removeItem('access-token');
-            // localStorage.removeItem('refresh-token');
-            // localStorage.removeItem('pendingEmail');
             localStorage.clear();
 
             window.location.reload();
@@ -73,30 +75,8 @@ export default class todoApi {
 
   async getAllTasks(searchTerm = "", searchCategory = "") {
     try {
-      // let url = `${API_BASE_URL}/todos`;
-      // const queryParams = [];
-
-      // if (searchTerm.trim() && searchCategory) {
-      //   queryParams.push(`search=${encodeURIComponent(searchTerm)}`);
-      //   queryParams.push(`category=${encodeURIComponent(searchCategory)}`);
-      // }
-
-      // if (queryParams.length) {
-      //   url += `?${queryParams.join("&")}`;
-      // }
-      // const search = {
-      //   searchTerm
-      // }
-      // const category = {
-      //   searchCategory
-      // }
-
       const response = this.api.get(`/todos/?search=${searchTerm}&category=${searchCategory}`);
-      // const response = this.api.get(`/todos/`, searchTerm, searchCategory);
 
-      // if (!response.ok) throw new Error("Failed to fetch tasks");
-      // return await response.json();
-      // const todos = await response.data;
       return await response;
 
     } catch (error) {
@@ -151,12 +131,40 @@ export default class todoApi {
 
   async deleteAllTasks() {
     try {
-      // const response = await fetch(`${API_BASE_URL}/todos`, {
-      //   method: "DELETE",
-      // });
-
       const response = await this.api.delete(`/todos`);
-      // if (!response.ok) throw new Error("Failed to delete all tasks");
+
+      return response;
+    } catch (error) {
+      console.error("Error deleting all tasks:", error);
+      throw error;
+    }
+  }
+
+  async forgetPasswordSendOtp(email) {
+    try {
+      const response = await this.api.post('/forget-password/send-otp', { email });
+
+      return response;
+    } catch (error) {
+      console.error("Error deleting all tasks:", error);
+      throw error;
+    }
+  }
+
+  async forgetPasswordVerifyOtp(email, otp) {
+    try {
+      const response = await this.api.post('/forget-password/verify-otp', { email, otp });
+
+      return response;
+    } catch (error) {
+      console.error("Error deleting all tasks:", error);
+      throw error;
+    }
+  }
+
+  async forgetPasswordSetEmail(email, newPassword) {
+    try {
+      const response = await this.api.post('/forget-password/reset', { email, newPassword });
 
       return response;
     } catch (error) {

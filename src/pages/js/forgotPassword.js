@@ -6,16 +6,14 @@ import * as bootstrap from "bootstrap";
 import authApi from "./authApi.js";
 const authAPI = new authApi();
 
-const loginForm = document.querySelector('form');
+const forgotPassForm = document.querySelector('form');
 const emailInput = document.getElementById('email-input');
-const passwordInput = document.getElementById('password-input');
 const submitButton = document.querySelector('button[type="submit"]');
 
-async function handleLogin(event) {
+async function handleForgotPass(event) {
   event.preventDefault();
 
   const email = emailInput.value.trim();
-  const password = passwordInput.value;
 
   // if (!email || !password) {
   //   showError('Please fill in all fields');
@@ -29,28 +27,34 @@ async function handleLogin(event) {
   }
 
   const originalText = submitButton.textContent;
-  submitButton.textContent = 'Signing in...';
+  submitButton.textContent = 'Sending otp...';
   submitButton.disabled = true;
 
   try {
-    await authAPI.login(email, password);
+    const response1 = await authAPI.forgetPasswordSendOtp(email);
+    console.log(response1);
 
-    showSuccess('Login successful! Redirecting...');
+    showSuccess('Otp sent! Check your email...');
+
+    await authAPI.forgetPasswordVerifyOtp(email, response1.otp);
+
+    showSuccess('Otp verified!!!');
 
     setTimeout(() => {
-      window.location.href = '../../index.html';
+      window.location.href = '../otpPage.html';
     }, 1000);
 
+
   } catch (error) {
-    showError(error.message || 'Login failed. Please check your credentials.');
+    showError(error.message || 'Otp verification failed. Please try again...');
   } finally {
     submitButton.textContent = originalText;
     submitButton.disabled = false;
   }
 }
 
-if (loginForm) {
-  loginForm.addEventListener('submit', handleLogin);
+if (forgotPassForm) {
+  forgotPassForm.addEventListener('submit', handleForgotPass);
 }
 
 export function showError(message) {
@@ -63,7 +67,7 @@ export function showError(message) {
   errorDiv.className = 'alert alert-danger error-message mt-3';
   errorDiv.textContent = message;
 
-  loginForm.parentNode.insertBefore(errorDiv, loginForm.nextSibling);
+  forgotPassForm.parentNode.insertBefore(errorDiv, forgotPassForm.nextSibling);
 }
 
 export function showSuccess(message) {
@@ -77,5 +81,5 @@ export function showSuccess(message) {
   successDiv.className = 'alert alert-success success-message mt-3';
   successDiv.textContent = message;
 
-  loginForm.parentNode.insertBefore(successDiv, loginForm.nextSibling);
+  forgotPassForm.parentNode.insertBefore(successDiv, forgotPassForm.nextSibling);
 }

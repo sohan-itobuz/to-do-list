@@ -33,7 +33,7 @@ async function handleSignup(event) {
 
     setTimeout(() => {
       window.location.href = './otpPage.html';
-    }, 1500);
+    }, 1000);
 
   } catch (error) {
     console.error('Registration error:', error);
