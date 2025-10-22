@@ -104,7 +104,12 @@ export default class AuthApi {
 
   async forgetPasswordReset(email, newPassword) {
     try {
-      await this.api.post(`/forget-password/reset`, { email, newPassword });
+      await this.api.post(`/forget-password/reset`, { email, newPassword }, {
+        headers: {
+          Authorization:
+            'Bearer ' + sessionStorage.getItem('sessionToken'),
+        },
+      });
 
     } catch (error) {
       // console.error("Error in password reset", error);

@@ -4,10 +4,10 @@ import "../scss/styles.scss";
 // Import all of Bootstrap's JS
 import * as bootstrap from "bootstrap";
 
-const accessToken = localStorage.getItem('access-token');
-if (!accessToken) {
-  window.location.href = './pages/loginPage.html';
-}
+// const accessToken = localStorage.getItem('access-token');
+// if (!accessToken) {
+//   window.location.href = './pages/loginPage.html';
+// }
 // Import modules
 import todoApi from './TodoApi.js';
 import { renderTasks } from './dom.js';

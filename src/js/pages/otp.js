@@ -8,7 +8,7 @@ import { showToast } from "../showToast.js";
 import authApi from "./AuthApi.js";
 const authAPI = new authApi();
 
-function OTPInput() {
+export function OTPInput() {
   const inputs = document.querySelectorAll('#otp > *[id]');
   for (let i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('keydown', function (event) {
@@ -44,7 +44,7 @@ async function handleOTPVerification() {
   const email = localStorage.getItem('pendingEmail');
   if (!email) {
     showToast('Email not found. Please try registering again.', "error");
-    window.location.href = './signUpPage.html';
+    window.location.href = '../../pages/signUpPage.html';
     return;
   }
 
@@ -58,9 +58,10 @@ async function handleOTPVerification() {
 
     localStorage.removeItem('pendingEmail');
 
-    const successMessage = document.createElement('div');
-    successMessage.className = 'alert alert-success mt-3';
-    successMessage.textContent = 'OTP verified successfully! Redirecting...';
+    // const successMessage = document.createElement('div');
+    // successMessage.className = 'alert alert-success mt-3';
+    // successMessage.textContent = 'OTP verified successfully! Redirecting...';
+    showToast("OTP verified successfully! ", "success");
     document.querySelector('.card').appendChild(successMessage);
 
     setTimeout(() => {
