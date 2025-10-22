@@ -1,7 +1,7 @@
 import axios from "axios";
 const API_BASE_URL = "http://localhost:3001/api/auth";
 
-export default class authApi {
+export default class AuthApi {
   api = axios.create({
     baseURL: API_BASE_URL,
   });
@@ -114,7 +114,7 @@ export default class authApi {
 
   async logout() {
     localStorage.clear();
-    window.location.href = './pages/loginPage.html';
+    window.location.href = '../../pages/loginPage.html';
   }
 
   // isAuthenticated() {

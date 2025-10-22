@@ -4,7 +4,7 @@ import "../scss/otp.scss";
 
 // Import all of Bootstrap’s JS
 import * as bootstrap from "bootstrap";
-import authApi from "./authApi.js";
+import authApi from "./AuthApi.js";
 const authAPI = new authApi();
 
 function OTPInput() {

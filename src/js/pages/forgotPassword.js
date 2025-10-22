@@ -1,9 +1,7 @@
-// Import our custom CSS
-import "../scss/login.scss";
 
 // Import all of Bootstrap’s JS
 import * as bootstrap from "bootstrap";
-import authApi from "./authApi.js";
+import authApi from "./AuthApi.js";
 const authAPI = new authApi();
 
 const forgotPassForm = document.querySelector('form');
@@ -34,19 +32,17 @@ async function handleForgotPass(event) {
     const response1 = await authAPI.forgetPasswordSendOtp(email);
     console.log(response1);
 
+    localStorage.setItem('reset_email', email);
+
     showSuccess('Otp sent! Check your email...');
 
-    await authAPI.forgetPasswordVerifyOtp(email, response1.otp);
-
-    showSuccess('Otp verified!!!');
-
     setTimeout(() => {
-      window.location.href = '../otpPage.html';
+      window.location.href = '../../pages/forgotOtpVerify.html';
     }, 1000);
 
 
   } catch (error) {
-    showError(error.message || 'Otp verification failed. Please try again...');
+    showError(error.message || 'Otp sending failed. Please try again...');
   } finally {
     submitButton.textContent = originalText;
     submitButton.disabled = false;

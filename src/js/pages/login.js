@@ -1,9 +1,9 @@
 // Import our custom CSS
-import "../scss/login.scss";
+import "../../pages/scss/login.scss";
 
 // Import all of Bootstrap’s JS
 import * as bootstrap from "bootstrap";
-import authApi from "./authApi.js";
+import authApi from "./AuthApi.js";
 const authAPI = new authApi();
 
 const loginForm = document.querySelector('form');
