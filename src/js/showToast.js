@@ -1,22 +1,38 @@
-export default showToast((message = 'This is a toast notification!') => {
+import * as bootstrap from "bootstrap";
 
-  const toastContainer = document.getElementById('toast-container');
+/**
+ * @param {string} message
+ * @param {string} type
+ * @param {number} delay
+ */
+export function showToast(message, type = "info", delay = 2000) {
+  const container = document.getElementById("toastContainer");
+  if (!container) return;
 
-  const toast = document.createElement('div');
+  const bgClass =
+    type === "success"
+      ? "bg-success text-white"
+      : type === "error"
+        ? "bg-danger text-white"
+        : "bg-info text-white";
 
-  toast.classList.add('toast');
-  toast.textContent = message;
+  const toastEl = document.createElement("div");
+  toastEl.className = `toast align-items-end ${bgClass} border-0`;
+  toastEl.setAttribute("role", "alert");
+  toastEl.setAttribute("aria-live", "assertive");
+  toastEl.setAttribute("aria-atomic", "true");
 
-  toastContainer.appendChild(toast);
+  toastEl.innerHTML = `
+    <div class="d-flex">
+      <div class="toast-body">${message}</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  `;
 
-  setTimeout(() => {
-    toast.classList.add('show');
-  }, 100);
+  container.appendChild(toastEl);
 
-  setTimeout(() => {
-    toast.classList.remove('show');
-    setTimeout(() => {
-      toast.remove();
-    }, 500);
-  }, 3000);
-});
+  const toast = new bootstrap.Toast(toastEl, { delay });
+  toast.show();
+
+  toastEl.addEventListener("hidden.bs.toast", () => toastEl.remove());
+}

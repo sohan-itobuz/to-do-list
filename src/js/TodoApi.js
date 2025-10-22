@@ -1,8 +1,8 @@
 import axios from 'axios';
 const API_BASE_URL = "http://localhost:3001/api";
-import { loadTasksSearch } from './main.js';
+//import { loadTasksSearch } from './main.js';
 
-export default class todoApi {
+export default class TodoApi {
   api = axios.create({
     baseURL: API_BASE_URL,
   });
@@ -146,7 +146,7 @@ export default class todoApi {
 
       return response;
     } catch (error) {
-      console.error("Error deleting all tasks:", error);
+      console.error("Error in sending otp:", error);
       throw error;
     }
   }
@@ -157,7 +157,7 @@ export default class todoApi {
 
       return response;
     } catch (error) {
-      console.error("Error deleting all tasks:", error);
+      console.error("Error in verifying otp:", error);
       throw error;
     }
   }
@@ -168,7 +168,22 @@ export default class todoApi {
 
       return response;
     } catch (error) {
-      console.error("Error deleting all tasks:", error);
+      console.error("Error in setting new password:", error);
+      throw error;
+    }
+  }
+
+  async logout() {
+    localStorage.clear();
+    window.location.href = '../../pages/loginPage.html';
+  }
+
+  async resetPassword(email, oldPassword, newPassword) {
+    try {
+      const response = await this.api.post('/todos/reset-password', { email, oldPassword, newPassword });
+
+      return response;
+    } catch (error) {
       throw error;
     }
   }

@@ -9,7 +9,7 @@ if (!accessToken) {
   window.location.href = './pages/loginPage.html';
 }
 // Import modules
-import todoApi from './api.js';
+import todoApi from './TodoApi.js';
 import { renderTasks } from './dom.js';
 import { initializeEventHandlers } from './events.js';
 import { createTaskElement } from "./dom.js";

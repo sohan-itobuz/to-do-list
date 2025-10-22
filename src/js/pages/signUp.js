@@ -1,8 +1,9 @@
 // Import our custom CSS
-import "../scss/login.scss";
+// import "../scss/login.scss";
 
 // Import all of Bootstrap's JS
 import * as bootstrap from "bootstrap";
+import { showToast } from "../showToast.js";
 
 import authApi from "./AuthApi.js";
 const authAPI = new authApi();
@@ -29,19 +30,19 @@ async function handleSignup(event) {
 
     localStorage.setItem('pendingEmail', email);
 
-    showSuccess('Registration successful! Please check your email for OTP.');
+    showToast("Registration successful! Please check your email for OTP.", "success");
 
     setTimeout(() => {
-      window.location.href = './otpPage.html';
+      window.location.href = '../../pages/otpPage.html';
     }, 1000);
 
   } catch (error) {
     console.error('Registration error:', error);
 
     if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-      showError('Backend server is not running. Please start your backend server and try again.');
+      showToast('Backend server is not running. Please start your backend server and try again.', "error");
     } else {
-      showError(error.message || 'Registration failed. Please try again.');
+      showToast(error.message || 'Registration failed. Please try again.', "error");
     }
   } finally {
     submitButton.textContent = originalText;
@@ -54,32 +55,4 @@ if (signupForm) {
   signupForm.addEventListener('submit', handleSignup);
 } else {
   console.error('Signup form not found!');
-}
-
-
-function showSuccess(message) {
-
-  const existingMessage = document.querySelector('.error-message, .success-message');
-  if (existingMessage) {
-    existingMessage.remove();
-  }
-
-  const successDiv = document.createElement('div');
-  successDiv.className = 'alert alert-success success-message mt-3';
-  successDiv.textContent = message;
-
-  signupForm.parentNode.insertBefore(successDiv, signupForm.nextSibling);
-}
-
-function showError(message) {
-
-  const existingError = document.querySelector('.error-message');
-  if (existingError) {
-    existingError.remove();
-  }
-  const errorDiv = document.createElement('div');
-  errorDiv.className = 'alert alert-danger error-message mt-3';
-  errorDiv.textContent = message;
-
-  signupForm.parentNode.insertBefore(errorDiv, signupForm.nextSibling);
 }

@@ -1,9 +1,10 @@
 // Import our custom CSS
-import "../scss/login.scss";
-import "../scss/otp.scss";
+// import "../scss/login.scss";
+// import "../scss/otp.scss";
 
 // Import all of Bootstrap’s JS
 import * as bootstrap from "bootstrap";
+import { showToast } from "../showToast.js";
 import authApi from "./AuthApi.js";
 const authAPI = new authApi();
 
@@ -36,13 +37,13 @@ async function handleOTPVerification() {
   const otp = Array.from(otpInputs).map(input => input.value).join('');
 
   if (otp.length !== 6) {
-    alert('Please enter the complete 6-digit OTP');
+    showToast('Please enter the complete 6-digit OTP', "error");
     return;
   }
 
   const email = localStorage.getItem('pendingEmail');
   if (!email) {
-    alert('Email not found. Please try registering again.');
+    showToast('Email not found. Please try registering again.', "error");
     window.location.href = './signUpPage.html';
     return;
   }
@@ -67,7 +68,7 @@ async function handleOTPVerification() {
     }, 1500);
 
   } catch (error) {
-    alert(error.message || 'OTP verification failed. Please try again.');
+    showToast(error.message, "error", 5000 || 'OTP verification failed. Please try again.', "error");
   } finally {
 
     validateButton.textContent = originalText;
@@ -78,7 +79,7 @@ async function handleOTPVerification() {
 async function handleResendOTP() {
   const email = localStorage.getItem('pendingEmail');
   if (!email) {
-    alert('Email not found. Please try registering again.');
+    showToast('Email not found. Please try registering again.', "error");
     window.location.href = './signUpPage.html';
     return;
   }
@@ -90,9 +91,9 @@ async function handleResendOTP() {
 
   try {
     await authAPI.resendOTP(email);
-    alert('OTP has been resent to your email.');
+    showToast('OTP has been resent to your email.', "success");
   } catch (error) {
-    alert(error.message || 'Failed to resend OTP. Please try again.');
+    showToast(error.message || 'Failed to resend OTP. Please try again.', "success");
   } finally {
     // resendLink.textContent = originalText;
     resendLink.style.pointerEvents = 'auto';

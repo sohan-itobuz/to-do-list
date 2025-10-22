@@ -112,10 +112,6 @@ export default class AuthApi {
     }
   }
 
-  async logout() {
-    localStorage.clear();
-    window.location.href = '../../pages/loginPage.html';
-  }
 
   // isAuthenticated() {
   //   return TokenManager.isAuthenticated();

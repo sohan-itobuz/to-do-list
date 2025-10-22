@@ -1,4 +1,5 @@
 import AuthApi from './AuthApi.js';
+import { showToast } from "../showToast.js";
 const authApi = new AuthApi();
 
 // import showToast from '../showToast.js';
@@ -13,7 +14,7 @@ otpForm.addEventListener("submit", async (e) => {
   const otp = otpInput.value.trim();
 
   if (!otp) {
-    alert("Please enter OTP");
+    showToast("Please enter OTP");
     return;
   }
 
@@ -21,11 +22,11 @@ otpForm.addEventListener("submit", async (e) => {
     await authApi.forgetPasswordVerifyOtp(email, otp);
 
     // showToast("OTP Verified Successfully!");
-    alert("OTP Verified Successfully!");
+    showToast("OTP Verified Successfully!", "success");
 
     window.location.href = "../../pages/forgotPasswordReset.html";
   } catch (error) {
-    alert(error.message || "Invalid OTP. Please try again.");
+    showToast(error.message || "Invalid OTP. Please try again.", "error");
   }
 });
 

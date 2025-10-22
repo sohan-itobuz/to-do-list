@@ -1,13 +1,13 @@
+import TodoApi from './TodoApi.js';
 // Import our custom CSS
-import "../scss/styles.scss";
+// import "../scss/styles.scss";
 
 // Import all of Bootstrap's JS
 import * as bootstrap from "bootstrap";
 import { renderTodos } from "./main.js";
-import todoApi from './api.js';
-import { renderTasks } from './dom.js';
-const todoAPI = new todoApi();
+//import { renderTasks } from './dom.js';
 
+const todoAPI = new TodoApi();
 
 export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSearch, updateTask) {
 
@@ -30,7 +30,6 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
       if (!searchTerm) {
         renderTodos("", "");
       }
-      // renderTodos(searchTerm);
     });
   }
 
@@ -189,15 +188,5 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
       alert("Failed to delete all tasks. Please try again.");
     }
   });
-
-  //logout button implement left
-  // const logoutButton = document.querySelector('.logout');
-
-  // logoutButton.addEventListener('click', () => {
-  //   localStorage.removeItem('access-token');
-  //   localStorage.removeItem('refresh-token');
-
-  //   window.location.reload();
-  // });
 
 }

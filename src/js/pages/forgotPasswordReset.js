@@ -1,3 +1,4 @@
+import { showToast } from "../showToast.js";
 import AuthApi from "./AuthApi.js";
 const authApi = new AuthApi();
 
@@ -13,19 +14,19 @@ form.addEventListener("submit", async (e) => {
   const newPassword = passwordInput.value.trim();
 
   if (!newPassword) {
-    alert("Please enter a password to reset");
+    showToast("Please enter a password to reset", "error");
     return;
   }
 
   try {
     await authApi.forgetPasswordReset(email, newPassword);
 
-    alert("Password reset successful!");
+    showToast("Password reset successful!", "success");
 
     localStorage.removeItem("reset_email");
 
     window.location.href = "../../pages/loginPage.html";
   } catch (error) {
-    alert(error.message || "Failed to reset password");
+    showToast(error.message, "error" || "Failed to reset password", "error");
   }
 });
