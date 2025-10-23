@@ -1,4 +1,5 @@
 import { forgotPasswordPage, forgotOtpVerify, forgotPasswordReset } from "../../dom/domHandler.js";
+import { showToast } from "../../utils/showToast.js";
 
 import authApi from "../api/AuthApi.js";
 const authAPI = new authApi();
@@ -62,7 +63,7 @@ export async function handleForgotPassOtp(e) {
 
 
   try {
-    const response = await authApi.forgetPasswordVerifyOtp(email, otp);
+    const response = await authAPI.forgetPasswordVerifyOtp(email, otp);
     sessionStorage.setItem('sessionToken', response.data.accessToken);
 
     showToast("OTP Verified Successfully!", "success");
@@ -88,7 +89,7 @@ export async function handleForgotPassReset(e) {
   }
 
   try {
-    await authApi.forgetPasswordReset(email, newPassword);
+    await authAPI.forgetPasswordReset(email, newPassword);
 
     showToast("Password reset successful!", "success");
 
