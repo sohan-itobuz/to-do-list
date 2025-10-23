@@ -1,5 +1,7 @@
 import { login } from "../../dom/domHandler";
 import { showToast } from "../../utils/showToast";
+import AuthApi from "../api/AuthApi";
+const authAPI = new AuthApi();
 
 export async function handleLogin(event) {
   event.preventDefault();
