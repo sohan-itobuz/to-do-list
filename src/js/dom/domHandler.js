@@ -13,6 +13,7 @@ export const forgotOtpVerify = {
   otpForm: document.getElementById("otp-form"),
   otpInputs: document.querySelectorAll('#otp input'),
   validateButton: document.querySelector('.validate'),
+  resendOtp: document.getElementById('resend-otp'),
 }
 
 export const forgotPasswordReset = {
@@ -25,4 +26,12 @@ export const login = {
   emailInput: document.getElementById('email-input'),
   passwordInput: document.getElementById('password-input'),
   submitButton: document.querySelector('button[type="submit"]'),
+}
+
+export const otpSelector = {
+  inputs: document.querySelectorAll('#otp > *[id]'),
+  otpInputs: document.querySelectorAll('#otp input'),
+  validateButton: document.querySelector('.validate'),
+  resendLink: document.querySelector('.resend-link'),
+  resendOtp: document.getElementById('resend-otp'),
 }

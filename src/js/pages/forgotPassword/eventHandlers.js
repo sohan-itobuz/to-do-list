@@ -7,13 +7,18 @@ const authAPI = new authApi();
 export async function handleForgotPass(event) {
   event.preventDefault();
 
-  const email = forgotPasswordPage.emailInput.value.trim();
+  let email = sessionStorage.getItem('userEmail');
+  if (!email) {
 
+    let email = forgotPasswordPage.emailInput.value.trim();
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    showToast('Please enter a valid email address', "error");
-    return;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showToast('Please enter a valid email address', "error");
+      return;
+    }
+
+    sessionStorage.setItem('userEmail', email);
   }
 
   const originalText = forgotPasswordPage.submitButton.textContent;
@@ -34,12 +39,12 @@ export async function handleForgotPass(event) {
 
 
   } catch (error) {
-    showToast(error.message, "error" || 'Otp sending failed. Please try again...', "error");
+    showToast(error.message || 'Otp sending failed. Please try again...', "error");
   } finally {
     forgotPasswordPage.submitButton.textContent = originalText;
     forgotPasswordPage.submitButton.disabled = false;
   }
-}
+};
 
 export async function handleForgotPassOtp(e) {
   e.preventDefault();
@@ -97,6 +102,6 @@ export async function handleForgotPassReset(e) {
 
     window.location.href = "../../pages/loginPage.html";
   } catch (error) {
-    showToast(error.message, "error" || "Failed to reset password", "error");
+    showToast(error.message || "Failed to reset password", "error");
   }
 };

@@ -1,6 +1,5 @@
 import axios from 'axios';
 const API_BASE_URL = "http://localhost:3001/api";
-//import { loadTasksSearch } from './main.js';
 
 export default class TodoApi {
   api = axios.create({
@@ -39,7 +38,7 @@ export default class TodoApi {
 
           try {
             const response = await axios.get(
-              'http://localhost:3001/api/auth/refresh-token',
+              'http://localhost:3001/user/auth/refresh-token',
               {
                 headers: {
                   Authorization:

@@ -12,6 +12,7 @@ export default class AuthApi {
 
       const response = await this.api.post(`/sign-up`, { email, password });
 
+      return response;
     } catch (error) {
       throw error.response.data;
     }
