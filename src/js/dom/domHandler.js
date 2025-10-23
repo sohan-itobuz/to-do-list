@@ -42,3 +42,10 @@ export const resetPassword = {
   oldPasswordInput: document.getElementById("oldPasswordInput"),
   newPasswordInput: document.getElementById("newPasswordInput"),
 }
+
+export const signUp = {
+  signupForm: document.getElementById('signup-form'),
+  emailInput: document.getElementById('email'),
+  passwordInput: document.getElementById('password'),
+  submitButton: document.getElementById('submit-btn'),
+}
