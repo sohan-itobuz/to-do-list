@@ -19,3 +19,10 @@ export const forgotPasswordReset = {
   form: document.getElementById("reset-form"),
   passwordInput: document.getElementById("newPassword"),
 }
+
+export const login = {
+  loginForm: document.querySelector('form'),
+  emailInput: document.getElementById('email-input'),
+  passwordInput: document.getElementById('password-input'),
+  submitButton: document.querySelector('button[type="submit"]'),
+}
