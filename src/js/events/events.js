@@ -1,15 +1,15 @@
-import TodoApi from './TodoApi.js';
+import TodoApi from '../api/TodoApi.js';
 // Import our custom CSS
 // import "../scss/styles.scss";
 
 // Import all of Bootstrap's JS
 import * as bootstrap from "bootstrap";
-import { renderTodos } from "./main.js";
-//import { renderTasks } from './dom.js';
+import { renderTodos } from '../utils/utils.js';
+import { updateTask } from '../utils/utils.js';
 
 const todoAPI = new TodoApi();
 
-export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSearch, updateTask) {
+export function initializeEventHandlers(todoList) {
 
   // Search form
   const searchForm = document.getElementById("search-form");
@@ -79,10 +79,7 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
           taskPriority,
           tagsArray,
         });
-        // console.log(newTask);
 
-        // tasks.push(newTask);
-        // renderTasks(tasks, todoList);
         renderTodos();
         taskInput.value = "";
         if (tagsInput) tagsInput.value = "";
@@ -142,7 +139,7 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
       const li = event.target.closest("li");
       const taskId = li.dataset.id;
       const completed = event.target.checked;
-      await updateTask(taskId, { completed });
+      await todoAPI.updateTask(taskId, { completed });
     }
   });
 

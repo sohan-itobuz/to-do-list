@@ -1,9 +1,9 @@
 // Import our custom CSS
-import "../../pages/scss/login.scss";
+// import "../../pages/scss/login.scss";
 
 // Import all of Bootstrap’s JS
 import * as bootstrap from "bootstrap";
-import { showToast } from "../../showToast.js";
+import { showToast } from "../../utils/showToast.js";
 import authApi from "../api/AuthApi.js";
 const authAPI = new authApi();
 

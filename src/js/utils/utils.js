@@ -1,4 +1,71 @@
-import { createTagsHtml } from './utils.js';
+import { showToast } from "./showToast.js";
+
+
+export function createTagsHtml(tags) {
+  if (!tags || !Array.isArray(tags) || !tags.length) return '';
+  const badges = tags
+    .filter(tag => tag.trim())
+    .map(tag => `<span class="badge fw-light rounded-pill tags-bg me-1">${tag.trim().toLowerCase()}</span>`)
+    .join('');
+  return `<div class="d-flex flex-wrap mb-1">${badges}</div>`;
+}
+
+export function OTPInput(inputs) {
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('keydown', function (event) {
+      if (event.key === "Backspace") {
+        inputs[i].value = ''; if (i !== 0) inputs[i - 1].focus();
+      } else {
+        if (i === inputs.length - 1 && inputs[i].value !== '') {
+          return true;
+        } else if (event.keyCode > 47 && event.keyCode < 58) {
+          inputs[i].value = event.key;
+          if (i !== inputs.length - 1)
+            inputs[i + 1].focus();
+          event.preventDefault();
+        } else if (event.keyCode > 64 && event.keyCode < 91) {
+          inputs[i].value = String.fromCharCode(event.keyCode);
+          if (i !== inputs.length - 1) inputs[i + 1].focus();
+          event.preventDefault();
+        }
+      }
+    });
+  }
+}
+
+export async function updateTask(taskId, updates) {
+  try {
+    await todoAPI.updateTask(taskId, updates);
+    renderTodos();
+
+  } catch (error) {
+    showToast("Failed to update task. Please try again.", "error");
+    renderTodos();
+  }
+}
+
+export async function renderTodos(searchTerm = "", searchCategory = "") {
+  try {
+    let taskArray = [];
+    const todos = await todoAPI.getAllTasks(searchTerm, searchCategory);
+    taskArray.push(...todos.data);
+
+    todoList.innerHTML = "";
+    if (!taskArray.length) {
+      const emptyMessage = document.createElement("li");
+      emptyMessage.className = "list-group-item text-center p-3 text-muted border-0 bg-transparent";
+      emptyMessage.textContent = "No tasks found. Start adding or searching!";
+      todoList.appendChild(emptyMessage);
+    } else {
+      taskArray.forEach((todo) => {
+        todoList.appendChild(createTaskElement(todo));
+      });
+    }
+  } catch (error) {
+    todoList.innerHTML = '<div class="alert alert-danger text-center" role="alert">Failed to load tasks.</div>';
+  }
+};
+
 
 export function createTaskElement(task) {
   const li = document.createElement("li");
@@ -47,36 +114,4 @@ export function createTaskElement(task) {
     ${createTagsHtml(task.tags)}
   `;
   return li;
-}
-
-export function renderTasks(tasks, todoList) {
-  todoList.innerHTML = "";
-  if (!tasks.length) {
-    const emptyMessage = document.createElement("li");
-    emptyMessage.className = "list-group-item text-center p-3 text-muted border-0 bg-transparent";
-    emptyMessage.textContent = "No tasks found. Start adding or searching!";
-    todoList.appendChild(emptyMessage);
-  } else {
-    tasks.forEach((task) => {
-      todoList.appendChild(createTaskElement(task));
-    });
-  }
-}
-
-export function profileIcon() {
-  document.addEventListener('DOMContentLoaded', () => {
-    const emailSpan = document.getElementById('user-email');
-    const logoutBtn = document.getElementById('logout-btn');
-
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    if (user && user.email && emailSpan) {
-      emailSpan.textContent = user.email;
-    }
-
-    logoutBtn.addEventListener('click', () => {
-      localStorage.clear();
-      window.location.href = '../pages/loginPage.html';
-    });
-  });
 }
