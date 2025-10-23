@@ -35,3 +35,10 @@ export const otpSelector = {
   resendLink: document.querySelector('.resend-link'),
   resendOtp: document.getElementById('resend-otp'),
 }
+
+export const resetPassword = {
+  form: document.getElementById("resetPasswordForm"),
+  emailInput: document.getElementById("emailInput"),
+  oldPasswordInput: document.getElementById("oldPasswordInput"),
+  newPasswordInput: document.getElementById("newPasswordInput"),
+}
