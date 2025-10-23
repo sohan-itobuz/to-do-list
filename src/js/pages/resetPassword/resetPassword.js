@@ -1,5 +1,5 @@
-import TodoApi from "../TodoApi.js";
-import { showToast } from "../showToast.js";
+import TodoApi from "../../TodoApi.js";
+import { showToast } from "../../showToast.js";
 const todoApi = new TodoApi();
 
 const form = document.getElementById("resetPasswordForm");

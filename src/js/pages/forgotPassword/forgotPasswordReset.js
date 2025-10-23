@@ -1,17 +1,14 @@
-import { showToast } from "../showToast.js";
+import { showToast } from "../../showToast.js";
 import axios from "axios";
-import AuthApi from "./AuthApi.js";
+import AuthApi from "../api/AuthApi.js";
 const authApi = new AuthApi();
 
-// import showToast from '../showToast.js';
 
 const form = document.getElementById("reset-form");
 const passwordInput = document.getElementById("newPassword");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
-
 
   const email = localStorage.getItem("reset_email");
   const newPassword = passwordInput.value.trim();
@@ -22,15 +19,6 @@ form.addEventListener("submit", async (e) => {
   }
 
   try {
-    // const response = await axios.get(
-    //   'http://localhost:3001/api/auth/refresh-token',
-    //   {
-    //     headers: {
-    //       Authorization:
-    //         'Bearer ' + sessionStorage.getItem('sessionToken'),
-    //     },
-    //   }
-    // );
 
     await authApi.forgetPasswordReset(email, newPassword);
 

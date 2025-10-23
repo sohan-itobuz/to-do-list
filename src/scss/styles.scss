@@ -1,16 +1,16 @@
 // // Import all of Bootstrap’s CSS
 // @import "bootstrap/scss/bootstrap";
 
-// $color-1: #212529;
-// $color-2: #2c3035;
-// $color-3: #495057;
-// $color-4: #6c757d;
-// $color-5: #adb5bd;
-// $color-6: #ced4da;
-// $color-7: #dee2e6;
-// $color-bg: #005f73;
-// $color-accent: #ef8354;
-// $color-accent-dark: #cc6b40;
+$color-1: #212529;
+$color-2: #2c3035;
+$color-3: #495057;
+$color-4: #6c757d;
+$color-5: #adb5bd;
+$color-6: #ced4da;
+$color-7: #dee2e6;
+$color-bg: #005f73;
+$color-accent: #ef8354;
+$color-accent-dark: #cc6b40;
 
 // * {
 //   font-family: "Poppins", sans-serif;
@@ -131,36 +131,36 @@
 //   background-color: lighten($color-2, 5%);
 // }
 
-// .task-text {
-//   flex-grow: 1;
-//   margin-right: 15px;
-//   font-size: 1.1rem;
-// }
+.task-text {
+  flex-grow: 1;
+  margin-right: 15px;
+  font-size: 1.1rem;
+}
 
-// .task-completed {
-//   background-color: $color-1;
+.task-completed {
+  background-color: $color-1;
 
-//   .task-text {
-//     text-decoration: line-through;
-//     opacity: 0.5;
-//     color: $color-5;
-//   }
-// }
+  .task-text {
+    text-decoration: line-through;
+    opacity: 0.5;
+    color: $color-5;
+  }
+}
 
-// .priority-3 {
-//   // High Priority
-//   border-left-color: #e74c3c !important;
-// }
+.priority-3 {
+  // High Priority
+  border-left-color: #e74c3c !important;
+}
 
-// .priority-2 {
-//   // Medium Priority
-//   border-left-color: $color-accent !important;
-// }
+.priority-2 {
+  // Medium Priority
+  border-left-color: $color-accent !important;
+}
 
-// .priority-1 {
-//   // Low Priority
-//   border-left-color: #2ecc71 !important;
-// }
+.priority-1 {
+  // Low Priority
+  border-left-color: #2ecc71 !important;
+}
 
 // .actions-group {
 //   display: flex;
@@ -370,11 +370,9 @@ body {
     padding: 2rem 0 1rem;
     margin: 0;
     font-size: 2.5rem;
-    background: linear-gradient(
-      135deg,
-      $color-text-primary 0%,
-      $color-primary 100%
-    );
+    background: linear-gradient(135deg,
+        $color-text-primary 0%,
+        $color-primary 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -447,11 +445,9 @@ body {
 
 // Buttons
 .btn-add {
-  background: linear-gradient(
-    135deg,
-    $color-primary 0%,
-    $color-primary-light 100%
-  );
+  background: linear-gradient(135deg,
+      $color-primary 0%,
+      $color-primary-light 100%);
   color: white;
   font-weight: 600;
   border: none;
@@ -465,11 +461,9 @@ body {
   gap: 0.5rem;
 
   &:hover {
-    background: linear-gradient(
-      135deg,
-      $color-primary-dark 0%,
-      $color-primary 100%
-    );
+    background: linear-gradient(135deg,
+        $color-primary-dark 0%,
+        $color-primary 100%);
     color: white;
     transform: translateY(-2px);
     box-shadow: $shadow-lg;
@@ -799,6 +793,7 @@ body {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

@@ -124,7 +124,7 @@ export function initializeEventHandlers(tasks, todoList, loadTasks, loadTasksSea
       } else {
         const updatedText = editInput.value.trim();
         if (updatedText) {
-          updateTask(taskId, { text: updatedText });
+          updateTask(taskId, { title: updatedText });
         }
         taskTextSpan.style.display = "block";
         editInput.style.display = "none";

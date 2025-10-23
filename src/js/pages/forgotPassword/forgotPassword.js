@@ -1,8 +1,8 @@
 
 // Import all of Bootstrap’s JS
 import * as bootstrap from "bootstrap";
-import { showToast } from "../showToast.js";
-import authApi from "./AuthApi.js";
+import { showToast } from "../../showToast.js";
+import authApi from "../api/AuthApi.js";
 const authAPI = new authApi();
 
 const forgotPassForm = document.querySelector('form');
@@ -14,10 +14,6 @@ async function handleForgotPass(event) {
 
   const email = emailInput.value.trim();
 
-  // if (!email || !password) {
-  //   showError('Please fill in all fields');
-  //   return;
-  // }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {

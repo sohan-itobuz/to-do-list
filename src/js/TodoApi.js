@@ -90,7 +90,7 @@ export default class TodoApi {
       const { taskText, taskPriority, tagsArray } = task;
 
       const response = await this.api.post(`/todos/`, {
-        text: taskText,
+        title: taskText,
         priority: taskPriority,
         tags: tagsArray
       });

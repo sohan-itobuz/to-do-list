@@ -4,33 +4,15 @@
 
 // Import all of Bootstrap’s JS
 import * as bootstrap from "bootstrap";
-import { showToast } from "../showToast.js";
-import authApi from "./AuthApi.js";
+import { showToast } from "../../showToast.js";
+import authApi from "../api/AuthApi.js";
+import { OTPInput } from "../../utils.js";
+
 const authAPI = new authApi();
 
-export function OTPInput() {
-  const inputs = document.querySelectorAll('#otp > *[id]');
-  for (let i = 0; i < inputs.length; i++) {
-    inputs[i].addEventListener('keydown', function (event) {
-      if (event.key === "Backspace") {
-        inputs[i].value = ''; if (i !== 0) inputs[i - 1].focus();
-      } else {
-        if (i === inputs.length - 1 && inputs[i].value !== '') {
-          return true;
-        } else if (event.keyCode > 47 && event.keyCode < 58) {
-          inputs[i].value = event.key;
-          if (i !== inputs.length - 1)
-            inputs[i + 1].focus();
-          event.preventDefault();
-        } else if (event.keyCode > 64 && event.keyCode < 91) {
-          inputs[i].value = String.fromCharCode(event.keyCode);
-          if (i !== inputs.length - 1) inputs[i + 1].focus();
-          event.preventDefault();
-        }
-      }
-    });
-  }
-} OTPInput();
+const inputs = document.querySelectorAll('#otp > *[id]');
+
+OTPInput(inputs);
 
 async function handleOTPVerification() {
   const otpInputs = document.querySelectorAll('#otp input');
@@ -58,14 +40,10 @@ async function handleOTPVerification() {
 
     localStorage.removeItem('pendingEmail');
 
-    // const successMessage = document.createElement('div');
-    // successMessage.className = 'alert alert-success mt-3';
-    // successMessage.textContent = 'OTP verified successfully! Redirecting...';
     showToast("OTP verified successfully! ", "success");
-    document.querySelector('.card').appendChild(successMessage);
 
     setTimeout(() => {
-      window.location.href = '../../index.html';
+      window.location.href = '../../pages/loginPage.html';
     }, 1500);
 
   } catch (error) {

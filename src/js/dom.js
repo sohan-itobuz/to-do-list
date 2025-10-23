@@ -26,8 +26,8 @@ export function createTaskElement(task) {
     <div class="d-flex align-items-center justify-content-center justify-content-md-between">
       <div class="d-flex">
         <input type="checkbox" class="form-check-input done-toggle me-2" ${task.completed ? "checked" : ""}>
-        <span class="task-text flex-grow-1">${task.text}</span>
-        <input type="text" class="form-control edit-input" style="display: none;" value="${task.text}">
+        <span class="task-text flex-grow-1">${task.title}</span>
+        <input type="text" class="form-control edit-input" style="display: none;" value="${task.title}">
         </div> 
         <span class="${priorityClass}">${task.priority === 3 ? "High" : task.priority === 2 ? "Medium" : "Low"}</span>
       <div class="btn-group gap-2 ms-2"> 
