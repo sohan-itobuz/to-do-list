@@ -99,8 +99,10 @@ export async function handleForgotPassReset(e) {
     showToast("Password reset successful!", "success");
 
     localStorage.removeItem("reset_email");
+    setTimeout(() => {
+      window.location.href = "../../pages/loginPage.html";
+    }, 1000);
 
-    window.location.href = "../../pages/loginPage.html";
   } catch (error) {
     showToast(error.message || "Failed to reset password", "error");
   }
