@@ -9,12 +9,12 @@ import * as bootstrap from "bootstrap";
 //   window.location.href = './pages/loginPage.html';
 // }
 
-import todoApi from './api/TodoApi.js';
 import { initializeEventHandlers } from './events/events.js';
+import { todoMain } from "./dom/domHandler.js";
 import { renderTodos } from './utils/utils.js';
 
-const todoAPI = new todoApi();
 
-const todoList = document.getElementById("todo-list");
 
-initializeEventHandlers(todoList);
+initializeEventHandlers(todoMain.todoList);
+
+renderTodos();

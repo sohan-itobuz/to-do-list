@@ -1,4 +1,3 @@
-import TodoApi from '../api/TodoApi.js';
 // Import our custom CSS
 // import "../scss/styles.scss";
 
@@ -6,89 +5,49 @@ import TodoApi from '../api/TodoApi.js';
 import * as bootstrap from "bootstrap";
 import { renderTodos } from '../utils/utils.js';
 import { updateTask } from '../utils/utils.js';
-
+import { todoMain } from "../dom/domHandler.js";
+import TodoApi from '../api/TodoApi.js';
 const todoAPI = new TodoApi();
+
+import EventHandlers from "./EventHandlers.js";
 
 export function initializeEventHandlers(todoList) {
 
   // Search form
-  const searchForm = document.getElementById("search-form");
-  if (searchForm) {
-    searchForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const searchTerm = document.getElementById("search-term").value.trim();
-      const searchCategory = document.getElementById("search-category").value;
-      renderTodos(searchTerm, searchCategory);
-    });
+  if (todoMain.searchForm) {
+    todoMain.searchForm.addEventListener("submit", EventHandlers.searchFormHandle);
   }
 
   // Search term input
-  const searchTermInput = document.getElementById("search-term");
-  if (searchTermInput) {
-    searchTermInput.addEventListener("input", function (e) {
-      const searchTerm = e.target.value.trim();
-      if (!searchTerm) {
-        renderTodos("", "");
-      }
-    });
+  if (todoMain.searchTermInput) {
+    todoMain.searchTermInput.addEventListener("input", EventHandlers.searchInputHandle);
   }
 
   // Filter buttons
-  document.getElementById("all-btn").addEventListener("click", function (e) {
-    e.preventDefault();
-    renderTodos("", "");
-  });
+  if (todoMain.allBtn) {
+    todoMain.allBtn.addEventListener("click", EventHandlers.handleAllBtn);
+  }
 
-  document.getElementById("high-btn").addEventListener("click", function (e) {
-    e.preventDefault();
-    renderTodos("3", "priority");
-  });
+  if (todoMain.highBtn) {
+    todoMain.highBtn.addEventListener("click", EventHandlers.handleHighBtn);
+  }
 
-  document.getElementById("mid-btn").addEventListener("click", function (e) {
-    e.preventDefault();
-    renderTodos("2", "priority");
-  });
+  if (todoMain.midBtn) {
+    todoMain.midBtn.addEventListener("click", EventHandlers.handleMidBtn);
+  }
 
-  document.getElementById("low-btn").addEventListener("click", function (e) {
-    e.preventDefault();
-    renderTodos("1", "priority");
-  });
+  if (todoMain.lowBtn) {
+    todoMain.lowBtn.addEventListener("click", EventHandlers.handleLowBtn);
+  }
 
-  document.getElementById("completed-btn").addEventListener("click", function (e) {
-    e.preventDefault();
-    renderTodos("true", "completed");
-  });
+  if (todoMain.completeBtn) {
+    todoMain.completeBtn.addEventListener("click", EventHandlers.handleCompleteBtn);
+  }
 
   // create task event 
-  document.getElementById("todo-form").addEventListener("submit", async function (event) {
-    try {
-      event.preventDefault();
-      const taskInput = document.getElementById("todo-input");
-      const priorityInput = document.getElementById("priority-input");
-      const taskText = taskInput.value.trim();
-      const taskPriority = parseInt(priorityInput.value);
-      const tagsInput = document.getElementById("tags-input");
-      const rawTags = tagsInput ? tagsInput.value : "";
-      if (taskText) {
-        const tagsArray = rawTags.split(',')
-          .map(tag => tag.trim())
-          .filter(tag => tag.length > 0);
-
-        await todoAPI.createTask({
-          taskText,
-          taskPriority,
-          tagsArray,
-        });
-
-        renderTodos();
-        taskInput.value = "";
-        if (tagsInput) tagsInput.value = "";
-      }
-    } catch (error) {
-      alert("Failed to create task. Please try again.");
-      console.log(error);
-    }
-  });
+  if (todoMain.todoForm) {
+    todoMain.todoForm.addEventListener("submit", EventHandlers.handleCreateTodo);
+  }
 
   // Task list events
   todoList.addEventListener("click", function (event) {
@@ -133,57 +92,29 @@ export function initializeEventHandlers(todoList) {
     }
   });
 
-  // Task completion toggle
-  todoList.addEventListener("change", async function (event) {
-    if (event.target.classList.contains("done-toggle")) {
-      const li = event.target.closest("li");
-      const taskId = li.dataset.id;
-      const completed = event.target.checked;
-      await todoAPI.updateTask(taskId, { completed });
-    }
-  });
 
-  // Clear all button
-  document.getElementById("clear-all-btn").addEventListener("click", function () {
-    const deleteAllConfirmationModal = new bootstrap.Modal(
-      document.getElementById("deleteAllConfirmationModal")
-    );
-    deleteAllConfirmationModal.show();
-  });
+
+
+  if (todoList) {
+    todoList.addEventListener("change", EventHandlers.handleChecked);
+
+  }
+
+
+
+  if (todoMain.delAllModal) {
+    todoMain.delAllModal.addEventListener("click", EventHandlers.handleDelAllModal);
+  }
+
 
   // Delete confirmation
-  document.getElementById("confirmDeleteBtn").addEventListener("click", async function () {
-    const taskId = this.dataset.id;
-    try {
-      await todoAPI.deleteTask(taskId);
-      renderTodos();
-
-      const deleteConfirmationModal = bootstrap.Modal.getInstance(
-        document.getElementById("deleteConfirmationModal")
-      );
-      if (deleteConfirmationModal) {
-        deleteConfirmationModal.hide();
-      }
-    } catch (error) {
-      alert("Failed to delete task. Please try again.");
-    }
-  });
+  if (todoMain.delBtn) {
+    todoMain.delBtn.addEventListener("click", EventHandlers.handleDelBtn);
+  }
 
   // Delete all confirmation
-  document.getElementById("confirmDeleteAllBtn").addEventListener("click", async function () {
-    try {
-      await todoAPI.deleteAllTasks();
-      renderTodos();
-
-      const deleteAllConfirmationModal = bootstrap.Modal.getInstance(
-        document.getElementById("deleteAllConfirmationModal")
-      );
-      if (deleteAllConfirmationModal) {
-        deleteAllConfirmationModal.hide();
-      }
-    } catch (error) {
-      alert("Failed to delete all tasks. Please try again.");
-    }
-  });
+  if (todoMain.delAllBtn) {
+    todoMain.delAllBtn.addEventListener("click", EventHandlers.handleDelAllBtn);
+  }
 
 }

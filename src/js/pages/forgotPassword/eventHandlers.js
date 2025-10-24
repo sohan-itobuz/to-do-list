@@ -69,7 +69,7 @@ export async function handleForgotPassOtp(e) {
 
   try {
     const response = await authAPI.forgetPasswordVerifyOtp(email, otp);
-    sessionStorage.setItem('sessionToken', response.data.accessToken);
+    sessionStorage.setItem('session_token', response.data.access_token);
 
     showToast("OTP Verified Successfully!", "success");
 

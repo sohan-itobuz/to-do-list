@@ -31,10 +31,26 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <i class="bi bi-person-circle me-2"></i>
+            <!-- <i class="bi bi-person-circle me-2"></i> -->
+
+            <img
+              id="preview"
+              src="./assets/img/profile.png"
+              alt="Profile Preview"
+              class="rounded-circle"
+              width="25"
+              height="25"
+            />
+
             <span id="user-email">User</span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+            <li>
+              <a class="dropdown-item" href="/pages/editProfile.html"
+                >Edit Profile</a
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
             <li>
               <a class="dropdown-item" href="/pages/resetPassword.html"
                 >Reset Password</a
@@ -228,7 +244,7 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body text-white">
             Are you sure you want to delete the task: "<span
               id="taskToDeleteText"
               class="fw-bold"
@@ -274,7 +290,7 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body text-white">
             Are you sure you want to delete all tasks? This will permanently
             clear your list.
           </div>

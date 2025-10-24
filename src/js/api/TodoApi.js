@@ -50,12 +50,12 @@ export default class TodoApi {
 
             if (response) {
               localStorage.clear();
-              localStorage.setItem('access-token', response.data.accessToken);
-              localStorage.setItem('refresh-token', response.data.refreshToken);
+              localStorage.setItem('access-token', response.data.access_token);
+              localStorage.setItem('refresh-token', response.data.refresh_token);
 
               originalRequest.headers[
                 'Authorization'
-              ] = `Bearer ${response.data.accessToken}`;
+              ] = `Bearer ${response.data.access_token}`;
 
               return this.api(originalRequest);
             }

@@ -1,5 +1,5 @@
-// // Import all of Bootstrap’s CSS
-// @import "bootstrap/scss/bootstrap";
+// Import all of Bootstrap’s CSS
+@import "bootstrap/scss/bootstrap";
 
 $color-1: #212529;
 $color-2: #2c3035;
@@ -12,124 +12,6 @@ $color-bg: #005f73;
 $color-accent: #ef8354;
 $color-accent-dark: #cc6b40;
 
-// * {
-//   font-family: "Poppins", sans-serif;
-// }
-
-// body {
-//   height: 100vh;
-//   background: $color-bg;
-//   color: $color-7;
-// }
-
-// .main {
-//   padding: 20px 10px;
-//   min-height: 100vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// .main-container {
-//   max-width: 40em;
-//   width: 100%;
-//   border-radius: 1rem;
-//   background-color: $color-2;
-//   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba($color-accent, 0.3);
-
-//   h1 {
-//     color: $color-7;
-//     font-weight: 600;
-//     letter-spacing: 1.5px;
-//     padding-top: 10px;
-//     padding-bottom: 10px;
-//   }
-
-//   .main-container-card {
-//     border: none;
-//     background-color: transparent;
-
-//     .main-container-card-body {
-//       border: none;
-//       background-color: $color-3;
-//       padding: 1.5rem;
-//       border-radius: 0.75rem;
-//     }
-//   }
-// }
-
-// .input-group>.form-control,
-// .input-group>.form-select {
-//   background-color: $color-2;
-//   border: 1px solid $color-4;
-//   color: $color-7;
-// }
-
-// .input-group>.form-control:focus,
-// .input-group>.form-select:focus {
-//   background-color: $color-2;
-//   color: $color-7;
-//   border-color: $color-accent;
-//   box-shadow: 0 0 0 0.25rem rgba($color-accent, 0.25);
-// }
-
-// .form-select {
-//   flex-grow: 0;
-//   color: $color-7;
-//   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23dee2e6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-// }
-
-// .form-control::placeholder {
-//   color: $color-5;
-//   opacity: 1;
-// }
-
-// .btn-add {
-//   background-color: $color-accent;
-//   color: $color-1;
-//   font-weight: 600;
-//   border: none;
-//   transition: background-color 0.2s ease, transform 0.1s ease;
-//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-// }
-
-// .btn-add:hover {
-//   background-color: $color-accent-dark;
-//   color: $color-7;
-//   transform: translateY(-1px);
-//   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
-// }
-
-// .btn-add:nth-of-type(2):hover {
-//   transform: translateY(0px);
-// }
-
-// .btn-add:active {
-//   transform: translateY(0);
-// }
-
-// .list-group {
-//   border-radius: 0.75rem;
-//   overflow: hidden;
-// }
-
-// .todo-item {
-//   background-color: $color-2;
-//   border-left: 5px solid transparent;
-//   border-bottom: 1px solid $color-4;
-//   color: $color-7;
-//   padding: 0.75rem 1rem;
-//   transition: background-color 0.2s ease, border-left 0.2s ease;
-//   cursor: pointer;
-// }
-
-// .todo-item:last-child {
-//   border-bottom: none;
-// }
-
-// .todo-item:hover {
-//   background-color: lighten($color-2, 5%);
-// }
 
 .task-text {
   flex-grow: 1;
@@ -148,100 +30,19 @@ $color-accent-dark: #cc6b40;
 }
 
 .priority-3 {
-  // High Priority
   border-left-color: #e74c3c !important;
 }
 
 .priority-2 {
-  // Medium Priority
   border-left-color: $color-accent !important;
 }
 
 .priority-1 {
-  // Low Priority
   border-left-color: #2ecc71 !important;
 }
 
-// .actions-group {
-//   display: flex;
-//   gap: 10px;
-//   align-items: center;
-// }
 
-// .action-btn {
-//   color: $color-5;
-//   background: transparent;
-//   border: none;
-//   padding: 5px;
-//   font-size: 1.2rem;
-//   cursor: pointer;
-//   transition: color 0.2s ease;
-// }
 
-// .edit-btn:hover {
-//   color: #e74c3c;
-// }
-
-// .delete-btn:hover {
-//   color: #e74c3c;
-// }
-
-// .modal-content {
-//   background-color: $color-2;
-//   color: $color-7;
-//   border-radius: 0.75rem;
-// }
-
-// .modal-header {
-//   border-bottom: 1px solid $color-3;
-// }
-
-// .modal-footer {
-//   border-top: 1px solid $color-3;
-// }
-
-// .btn-close {
-//   filter: invert(1);
-// }
-
-// .tags-container {
-//   display: flex;
-//   flex-wrap: wrap;
-//   /* Allows tags to wrap on small screens */
-//   gap: 6px;
-//   margin-bottom: 0.75rem;
-//   /* Space between tags and task text */
-//   margin-top: 0.25rem;
-// }
-
-// .tag-badge {
-//   display: inline-block;
-//   padding: 2px 8px;
-//   border-radius: 4px;
-//   font-size: 0.75rem;
-//   font-weight: 500;
-//   color: $color-7;
-
-//   background-color: $color-4;
-
-//   opacity: 0.9;
-// }
-
-// .tags-bg {
-//   background-color: $color-bg;
-// }
-
-// .scrollable-area {
-//   max-height: 294px;
-//   overflow-y: auto;
-// }
-
-// ----------------------------
-
-// Import all of Bootstrap’s CSS
-@import "bootstrap/scss/bootstrap";
-
-// Color palette - refined and modern
 $color-bg: linear-gradient(135deg, #005f73 0%, #0a9396 100%);
 $color-surface: #1a1d24;
 $color-surface-light: #2a2f3a;
@@ -259,7 +60,6 @@ $color-high: #e74c3c;
 $color-medium: #f39c12;
 $color-low: #2ecc71;
 
-// Shadow system
 $shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
 $shadow-md: 0 4px 20px rgba(0, 0, 0, 0.15);
 $shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.2);
@@ -278,7 +78,6 @@ body {
   margin: 0;
 }
 
-// Profile section
 .profile {
   position: fixed;
   top: 0;
@@ -336,7 +135,6 @@ body {
   }
 }
 
-// Main content
 .main {
   padding: 80px 20px 40px;
   min-height: 100vh;
@@ -350,6 +148,10 @@ body {
 
   @media (max-width: 576px) {
     padding: 60px 10px 20px;
+  }
+
+  @media (max-width: 320px) {
+    padding: 50px 7px 15px;
   }
 }
 
@@ -398,11 +200,14 @@ body {
       @media (max-width: 576px) {
         padding: 1rem;
       }
+
+      @media (max-width: 320px) {
+        padding: 0.7rem;
+      }
     }
   }
 }
 
-// Form controls
 .input-group {
   gap: 0.75rem;
   margin-bottom: 1rem;
@@ -443,7 +248,7 @@ body {
   }
 }
 
-// Buttons
+
 .btn-add {
   background: linear-gradient(135deg,
       $color-primary 0%,
@@ -474,7 +279,6 @@ body {
   }
 }
 
-// Filter buttons
 .row.mb-4 {
   .col-12 {
     display: flex;
@@ -527,7 +331,7 @@ body {
   }
 }
 
-// Todo list
+
 .scrollable-area {
   max-height: 400px;
   overflow-y: auto;
@@ -604,7 +408,6 @@ body {
   margin: 0;
 }
 
-// Priority styles
 .priority-3 {
   border-left-color: $color-high !important;
 }
@@ -617,7 +420,6 @@ body {
   border-left-color: $color-low !important;
 }
 
-// Tags
 .tags-container {
   display: flex;
   flex-wrap: wrap;
@@ -640,7 +442,6 @@ body {
   }
 }
 
-// Actions
 .actions-group {
   display: flex;
   gap: 0.5rem;
@@ -684,7 +485,6 @@ body {
   }
 }
 
-// Modals
 .modal-content {
   background: $color-surface-light;
   border-radius: 20px;
@@ -720,7 +520,6 @@ body {
   }
 }
 
-// Toast notifications
 #toastContainer {
   .toast {
     background: $color-surface-light;
@@ -737,7 +536,6 @@ body {
   }
 }
 
-// Clear all button
 #clear-all-btn {
   background: rgba($color-danger, 0.1);
   color: $color-danger;
@@ -749,7 +547,6 @@ body {
   }
 }
 
-// Responsive improvements
 @media (max-width: 768px) {
   .todo-item {
     padding: 1rem;
@@ -787,7 +584,6 @@ body {
   }
 }
 
-// Animation for new items
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -804,7 +600,6 @@ body {
   animation: slideIn 0.3s ease;
 }
 
-// Extra small devices (320px and below)
 @media (max-width: 320px) {
   .profile {
     padding: 0.5rem;
@@ -838,7 +633,6 @@ body {
     }
   }
 
-  // Form controls
   .input-group {
     gap: 0.375rem;
     margin-bottom: 0.75rem;
@@ -856,7 +650,6 @@ body {
     }
   }
 
-  // Buttons
   .btn-add {
     padding: 0.625rem 1rem;
     font-size: 0.875rem;
@@ -868,7 +661,6 @@ body {
     }
   }
 
-  // Filter buttons
   .row.mb-4 .col-12 {
     gap: 0.375rem;
 
@@ -877,7 +669,6 @@ body {
       font-size: 0.75rem;
       border-width: 1px;
 
-      // Make filter buttons more compact
       &#all-btn,
       &#high-btn,
       &#mid-btn,
@@ -892,7 +683,6 @@ body {
     }
   }
 
-  // Todo items
   .scrollable-area {
     max-height: 300px;
   }
@@ -910,7 +700,7 @@ body {
 
   .actions-group {
     gap: 0.25rem;
-    opacity: 1; // Always show actions on very small screens
+    opacity: 1;
 
     .action-btn {
       padding: 0.375rem;
@@ -918,7 +708,6 @@ body {
     }
   }
 
-  // Tags
   .tags-container {
     gap: 0.25rem;
 
@@ -929,7 +718,6 @@ body {
     }
   }
 
-  // Modals
   .modal-dialog {
     margin: 0.5rem;
   }
@@ -948,7 +736,6 @@ body {
     font-size: 1.1rem;
   }
 
-  // Clear all button
   #clear-all-btn {
     font-size: 0.875rem;
     padding: 0.625rem 1rem;
@@ -958,7 +745,6 @@ body {
     }
   }
 
-  // Search form adjustments
   #search-form {
     #search-term {
       font-size: 0.875rem;
@@ -969,17 +755,33 @@ body {
     }
   }
 
-  // Priority select narrowing
   #priority-input {
     max-width: 120px;
     font-size: 0.8rem;
   }
 
-  // Profile dropdown text truncation
   #user-email {
     max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+
+.tags-bg {
+  background-color: $color-bg;
+}
+
+.scrollable-area {
+  max-height: 294px;
+  overflow-y: auto;
+}
+
+.edit-btn:hover {
+  color: #e74c3c;
+}
+
+.delete-btn:hover {
+  color: #e74c3c;
 }

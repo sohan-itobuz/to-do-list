@@ -1,5 +1,17 @@
-export const todos = {
+export const todoMain = {
+  todoList: document.getElementById("todo-list"),
+  searchForm: document.getElementById("search-form"),
+  searchTermInput: document.getElementById("search-term"),
+  allBtn: document.getElementById("all-btn"),
+  highBtn: document.getElementById("high-btn"),
+  midBtn: document.getElementById("mid-btn"),
+  lowBtn: document.getElementById("low-btn"),
+  completeBtn: document.getElementById("completed-btn"),
+  todoForm: document.getElementById("todo-form"),
 
+  delAllModal: document.getElementById("clear-all-btn"),
+  delBtn: document.getElementById("confirmDeleteBtn"),
+  delAllBtn: document.getElementById("confirmDeleteAllBtn"),
 }
 
 export const forgotPasswordPage = {

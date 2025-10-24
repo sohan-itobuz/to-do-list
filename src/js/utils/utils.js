@@ -1,11 +1,14 @@
+import * as bootstrap from "bootstrap";
 import { showToast } from "./showToast.js";
-
+import { todoMain } from "../dom/domHandler.js";
+import TodoApi from "../api/TodoApi.js";
+const todoAPI = new TodoApi();
 
 export function createTagsHtml(tags) {
   if (!tags || !Array.isArray(tags) || !tags.length) return '';
   const badges = tags
     .filter(tag => tag.trim())
-    .map(tag => `<span class="badge fw-light rounded-pill tags-bg me-1">${tag.trim().toLowerCase()}</span>`)
+    .map(tag => `<span class="badge fw-light rounded-pill bg-info tags-bg me-1">${tag.trim().toLowerCase()}</span>`)
     .join('');
   return `<div class="d-flex flex-wrap mb-1">${badges}</div>`;
 }
@@ -50,19 +53,26 @@ export async function renderTodos(searchTerm = "", searchCategory = "") {
     const todos = await todoAPI.getAllTasks(searchTerm, searchCategory);
     taskArray.push(...todos.data);
 
-    todoList.innerHTML = "";
+    if (todoMain.todoList) {
+      todoMain.todoList.innerHTML = "";
+    } else {
+      console.error('todoList not found');
+    }
+
     if (!taskArray.length) {
       const emptyMessage = document.createElement("li");
-      emptyMessage.className = "list-group-item text-center p-3 text-muted border-0 bg-transparent";
+      emptyMessage.className = "list-group-item text-center p-3 text-white border-0 bg-transparent";
       emptyMessage.textContent = "No tasks found. Start adding or searching!";
-      todoList.appendChild(emptyMessage);
+      todoMain.todoList.appendChild(emptyMessage);
     } else {
       taskArray.forEach((todo) => {
-        todoList.appendChild(createTaskElement(todo));
+        todoMain.todoList.appendChild(createTaskElement(todo));
       });
     }
   } catch (error) {
-    todoList.innerHTML = '<div class="alert alert-danger text-center" role="alert">Failed to load tasks.</div>';
+    todoMain.todoList.innerHTML = '<div class="alert alert-danger text-center" role="alert"> <p class="bg-light"> Failed to load tasks. </p></div>';
+    showToast(error.message);
+    console.error(error);
   }
 };
 

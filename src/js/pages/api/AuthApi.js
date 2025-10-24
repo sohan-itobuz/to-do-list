@@ -23,8 +23,8 @@ export default class AuthApi {
 
       const response = await this.api.post(`/login`, { email, password });
 
-      localStorage.setItem('access-token', response.data.accessToken);
-      localStorage.setItem('refresh-token', response.data.refreshToken);
+      localStorage.setItem('access-token', response.data.access_token);
+      localStorage.setItem('refresh-token', response.data.refresh_token);
 
     } catch (error) {
       throw error.response.data;
@@ -76,7 +76,7 @@ export default class AuthApi {
       await this.api.post(`/forget-password/reset`, { email, newPassword }, {
         headers: {
           Authorization:
-            'Bearer ' + sessionStorage.getItem('sessionToken'),
+            'Bearer ' + sessionStorage.getItem('session_token'),
         },
       });
 
