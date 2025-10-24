@@ -49,3 +49,8 @@ export const signUp = {
   passwordInput: document.getElementById('password'),
   submitButton: document.getElementById('submit-btn'),
 }
+
+export const profile = {
+  emailSpan: document.getElementById('user-email'),
+  logoutBtn: document.getElementById('logout-btn'),
+}

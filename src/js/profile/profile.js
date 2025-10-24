@@ -1,4 +1,4 @@
 
-import { profileIcon } from './profileHandler';
+import { profileHandler } from './profileHandler';
 
-profileIcon();
+profileHandler();

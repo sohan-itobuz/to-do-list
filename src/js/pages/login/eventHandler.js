@@ -22,6 +22,8 @@ export async function handleLogin(event) {
   try {
     await authAPI.login(email, password);
 
+    localStorage.setItem('userEmail', email);
+
     showToast('Login successful! Redirecting...', "success");
 
     setTimeout(() => {

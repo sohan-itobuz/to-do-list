@@ -1,15 +1,19 @@
-export function profileIcon() {
+// const emailSpan = document.getElementById('user-email');
+// const logoutBtn = document.getElementById('logout-btn');
+import { profile } from "../dom/domHandler";
+
+
+export function profileHandler() {
   document.addEventListener('DOMContentLoaded', () => {
-    const emailSpan = document.getElementById('user-email');
-    const logoutBtn = document.getElementById('logout-btn');
 
-    const user = JSON.parse(localStorage.getItem('user'));
+    const userEmail = localStorage.getItem('userEmail');
+    const userEmailFirst = userEmail.split('')[0];
 
-    if (user && user.email && emailSpan) {
-      emailSpan.textContent = user.email;
+    if (userEmail && userEmailFirst && profile.emailSpan) {
+      profile.emailSpan.textContent = userEmailFirst;
     }
 
-    logoutBtn.addEventListener('click', () => {
+    profile.logoutBtn.addEventListener('click', () => {
       localStorage.clear();
       window.location.href = '../pages/loginPage.html';
     });
