@@ -1,0 +1,58 @@
+@import "bootstrap/scss/bootstrap";
+
+$font-family-main: "Poppins", sans-serif;
+
+$color-1: #212529;
+$color-2: #2c3035;
+$color-3: #495057;
+$color-4: #6c757d;
+$color-5: #adb5bd;
+$color-6: #ced4da;
+$color-7: #dee2e6;
+
+$color-bg-gradient: linear-gradient(135deg, #005f73 0%, #0a9396 100%);
+$color-surface: #1a1d24;
+$color-surface-light: #2a2f3a;
+$color-surface-lighter: #3a4150;
+
+$color-primary: #ef8354;
+$color-primary-dark: #cc6b40;
+$color-primary-light: #ff9a6c;
+
+$color-text-primary: #f8f9fa;
+$color-text-secondary: $color-5;
+$color-text-muted: $color-4;
+
+$color-danger: #e74c3c;
+$color-warning: #f39c12;
+$color-success: #2ecc71;
+
+$color-high: $color-danger;
+$color-medium: $color-warning;
+$color-low: $color-success;
+
+/* Scroll and accents */
+$color-scroll-thumb: #555;
+$color-scroll-track: #1f1f1f;
+
+/* Shadows & spacing */
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 20px rgba(0, 0, 0, 0.15);
+$shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.2);
+$shadow-glow: 0 0 20px rgba(239, 131, 84, 0.15);
+
+$box-shadow-card: $shadow-lg;
+$border-radius-lg: 24px;
+$border-radius: 12px;
+
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-base: 1rem;
+$spacing-lg: 2rem;
+
+/* To-do list height */
+$todo-list-height: 290px;
+
+/* Animation */
+$anim-fast: 0.2s;
+$anim-medium: 0.3s;
