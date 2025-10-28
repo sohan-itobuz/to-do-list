@@ -8,7 +8,7 @@
 
   &__container {
     width: 100%;
-    max-width: 720px;
+    max-width: 800px;
   }
 
   &__title {
@@ -17,11 +17,9 @@
     font-size: 2.5rem;
     font-weight: 700;
     letter-spacing: 1px;
-    background: linear-gradient(
-      135deg,
-      $color-text-primary 0%,
-      $color-primary 100%
-    );
+    background: linear-gradient(135deg,
+        $color-text-primary 0%,
+        $color-primary 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -162,18 +160,22 @@
         background: $color-primary;
         border-color: $color-primary;
       }
+
       &.filter--high.is-active {
         background: $color-high;
         border-color: $color-high;
       }
+
       &.filter--medium.is-active {
         background: $color-medium;
         border-color: $color-medium;
       }
+
       &.filter--low.is-active {
         background: $color-low;
         border-color: $color-low;
       }
+
       &.filter--completed.is-active {
         background: $color-success;
         border-color: $color-success;
@@ -186,7 +188,8 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    max-height: $todo-list-height; /* 294px requested */
+    max-height: $todo-list-height;
+    /* 294px requested */
     overflow-y: auto;
     border-radius: $border-radius;
     background: $color-surface-light;
@@ -197,10 +200,12 @@
     &::-webkit-scrollbar {
       width: 6px;
     }
+
     &::-webkit-scrollbar-thumb {
       background: $color-primary;
       border-radius: 3px;
     }
+
     &::-webkit-scrollbar-track {
       background: rgba(255, 255, 255, 0.02) transparent;
       border-radius: 3px;
@@ -248,9 +253,11 @@
     &--priority-3 {
       border-left-color: $color-high !important;
     }
+
     &--priority-2 {
       border-left-color: $color-medium !important;
     }
+
     &--priority-1 {
       border-left-color: $color-low !important;
     }
@@ -330,11 +337,13 @@
           color: $color-success;
         }
       }
+
       &.edit {
         &:hover {
           color: $color-primary;
         }
       }
+
       &.delete {
         &:hover {
           color: $color-danger;
@@ -368,8 +377,27 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.task-completed {
+  background-color: $color-1;
+
+  .task-text {
+    text-decoration: line-through;
+    opacity: 0.5;
+    color: $color-5;
+  }
+}
+
+.edit-btn:hover {
+  color: $color-success;
+}
+
+.delete-btn:hover {
+  color: $color-danger;
 }
