@@ -1,0 +1,17 @@
+// Import all of Bootstrap’s CSS
+@import "bootstrap/scss/bootstrap";
+
+* {
+  height: 100%;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+$color-bg: #005f73;
+
+body {
+  min-height: 100vh;
+  background-color: $color-bg !important;
+  padding: 0;
+  margin: 0;
+}
