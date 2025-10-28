@@ -72,4 +72,9 @@ export const signUp = {
 export const profile = {
   emailSpan: document.getElementById("user-email"),
   logoutBtn: document.getElementById("logout-btn"),
+  profilePreview: document.getElementById('profile-preview'),
+  profileIcon: document.getElementById('icon-preview'),
+  profileImage: document.getElementById('profileImage'),
+  userEmail: document.getElementById('user-profile-email'),
+  profileForm: document.getElementById('edit-profile-form'),
 };

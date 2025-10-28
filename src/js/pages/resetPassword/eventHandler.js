@@ -6,17 +6,16 @@ const todoApi = new TodoApi();
 export async function handleResetPassword(e) {
   e.preventDefault();
 
-  const email = resetPassword.emailInput.value.trim();
   const oldPassword = resetPassword.oldPasswordInput.value.trim();
   const newPassword = resetPassword.newPasswordInput.value.trim();
 
-  if (!email || !oldPassword || !newPassword) {
+  if (!oldPassword || !newPassword) {
     showToast("All fields are required", "error");
     return;
   }
 
   try {
-    await todoApi.resetPassword(email, oldPassword, newPassword);
+    await todoApi.resetPassword(localStorage.getItem('userEmail'), oldPassword, newPassword);
     showToast("Password updated successfully! Redirecting...", "success");
 
     setTimeout(() => {
