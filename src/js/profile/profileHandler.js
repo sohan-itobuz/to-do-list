@@ -10,7 +10,7 @@ export function profileHandler() {
   document.addEventListener('DOMContentLoaded', () => {
 
     const userEmail = localStorage.getItem('userEmail');
-    const userEmailFirst = userEmail.split('')[0];
+    const userEmailFirst = userEmail.split('')[0].toUpperCase();
 
     if (userEmail && userEmailFirst && profile.emailSpan) {
       profile.emailSpan.textContent = userEmailFirst;

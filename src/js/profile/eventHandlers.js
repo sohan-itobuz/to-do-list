@@ -1,4 +1,8 @@
 import { profile } from "../dom/domHandler.js";
+import { getUserDetails } from "./profileHandler.js";
+import { showToast } from "../utils/showToast.js";
+import TodoApi from "../api/TodoApi.js";
+const todoApi = new TodoApi();
 
 export async function changeImage(e) {
   e.preventDefault();
@@ -18,9 +22,9 @@ export async function changeImage(e) {
     showToast(uploadedContent.data.message);
 
   } catch (err) {
-    showToast(err.message);
+    showToast(err.response.data.message);
   } finally {
     getUserDetails();
-    profileForm.reset();
+    profile.profileForm.reset();
   }
 }

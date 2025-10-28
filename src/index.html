@@ -371,7 +371,7 @@
             class="update-profile"
             enctype="multipart/form-data"
           >
-            <div class="mb-3">
+            <div class="mb-2" id="image-input-div">
               <label for="profileImage" class="form-label"
                 >Upload Profile Image</label
               >
@@ -381,6 +381,9 @@
                 id="profileImage"
                 accept="image/*"
               />
+              <label for="image-input-div" class="form-label text-secondary"
+                >*max size 1MB</label
+              >
             </div>
             <button type="submit" class="btn btn-primary w-100">Save</button>
           </form>
