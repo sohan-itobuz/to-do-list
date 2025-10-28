@@ -1,5 +1,6 @@
 import axios from 'axios';
-const API_BASE_URL = "http://localhost:3001/api";
+// import { fileUpload } from '../utils/utils.js';
+const API_BASE_URL = "http://localhost:3001";
 
 export default class TodoApi {
   api = axios.create({
@@ -172,16 +173,36 @@ export default class TodoApi {
     }
   }
 
-  async logout() {
-    localStorage.clear();
-    window.location.href = '../../pages/loginPage.html';
-  }
+  // async logout() {
+  //   localStorage.clear();
+  //   window.location.href = '../../pages/loginPage.html';
+  // }
 
   async resetPassword(email, oldPassword, newPassword) {
     try {
       const response = await this.api.post('/todos/reset-password', { email, oldPassword, newPassword });
 
       return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getUserData() {
+    try {
+      const response = await this.api.post('/user/profile');
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async uploadPhoto(image) {
+    try {
+      const res = await this.api.post("/user/profile/upload", image);
+
+      return res;
     } catch (error) {
       throw error;
     }

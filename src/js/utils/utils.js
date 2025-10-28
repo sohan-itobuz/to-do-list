@@ -125,3 +125,13 @@ export function createTaskElement(task) {
   `;
   return li;
 }
+
+export function fileUpload(method, file) {
+  const data = {
+    method: method,
+    headers: {},
+  };
+
+  data.body = file;
+  return data;
+};

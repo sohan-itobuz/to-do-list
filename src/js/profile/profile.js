@@ -1,4 +1,5 @@
 
-import { profileHandler } from './profileHandler';
+import { profileHandler, getUserDetails } from './profileHandler.js';
 
 profileHandler();
+getUserDetails();
