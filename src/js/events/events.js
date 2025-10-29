@@ -54,6 +54,10 @@ export function initializeEventHandlers(todoList) {
   // Task list events
   todoList.addEventListener("click", EventHandlers.handleDelEdtBtn);
 
+  document
+    .getElementById("editTodoForm")
+    .addEventListener("submit", EventHandlers.handleEditTodoForm);
+
   if (todoList) {
     todoList.addEventListener("change", EventHandlers.handleChecked);
   }

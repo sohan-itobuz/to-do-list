@@ -153,28 +153,83 @@ export default class EventHandlers {
       deleteConfirmationModal.show();
     }
 
+    // if (target.classList.contains("edit-btn")) {
+    //   const taskId = li.dataset.id;
+    //   const taskTextSpan = li.querySelector(".task-text");
+    //   const editInput = li.querySelector(".edit-input");
+
+    //   if (taskTextSpan.style.display !== "none") {
+    //     taskTextSpan.style.display = "none";
+    //     editInput.style.display = "block";
+    //     editInput.focus();
+    //     target.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16" style="pointer-events: none;"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.243 8.381a.733.733 0 0 1 1.066-.01L7.293 10.98l5.17-5.17z"/></svg>`;
+    //   } else {
+    //     const updatedText = editInput.value.trim();
+    //     if (updatedText) {
+    //       updateTask(taskId, { title: updatedText });
+    //     }
+    //     taskTextSpan.style.display = "block";
+    //     editInput.style.display = "none";
+    //     target.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="pointer-events: none;">
+    //       <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+    //       <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+    //     </svg>`;
+    //   }
+    // }
+
     if (target.classList.contains("edit-btn")) {
       const taskId = li.dataset.id;
-      const taskTextSpan = li.querySelector(".task-text");
-      const editInput = li.querySelector(".edit-input");
+      const taskTitle = li.querySelector(".task-text").textContent.trim();
+      const priorityText = li.querySelector(".badge").textContent.trim();
+      const tags = Array.from(li.querySelectorAll(".tag-badge")).map((tag) =>
+        tag.textContent.trim()
+      );
+      const completed = li.querySelector(".done-toggle").checked;
 
-      if (taskTextSpan.style.display !== "none") {
-        taskTextSpan.style.display = "none";
-        editInput.style.display = "block";
-        editInput.focus();
-        target.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16" style="pointer-events: none;"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.243 8.381a.733.733 0 0 1 1.066-.01L7.293 10.98l5.17-5.17z"/></svg>`;
-      } else {
-        const updatedText = editInput.value.trim();
-        if (updatedText) {
-          updateTask(taskId, { title: updatedText });
-        }
-        taskTextSpan.style.display = "block";
-        editInput.style.display = "none";
-        target.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="pointer-events: none;">
-          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-        </svg>`;
-      }
+      // Pre-fill modal fields
+      document.getElementById("editTaskTitle").value = taskTitle;
+      document.getElementById("editTaskPriority").value =
+        priorityText === "High" ? 3 : priorityText === "Medium" ? 2 : 1;
+      document.getElementById("editTaskTags").value = tags.join(", ");
+      document.getElementById("editTaskCompleted").checked = completed;
+
+      // Store current task ID in modal form (so we know what to update)
+      document.getElementById("editTodoForm").dataset.id = taskId;
+
+      // Show the modal
+      const editModal = new bootstrap.Modal(
+        document.getElementById("editTodoModal")
+      );
+      editModal.show();
+    }
+  }
+
+  static async handleEditTodoForm(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const taskId = form.dataset.id;
+
+    const updatedTask = {
+      title: document.getElementById("editTaskTitle").value.trim(),
+      priority: parseInt(document.getElementById("editTaskPriority").value),
+      tags: document
+        .getElementById("editTaskTags")
+        .value.split(",")
+        .map((t) => t.trim())
+        .filter((t) => t),
+      completed: document.getElementById("editTaskCompleted").checked,
+    };
+
+    try {
+      await updateTask(taskId, updatedTask);
+      showToast("Task updated successfully!", "success");
+      renderTodos();
+      bootstrap.Modal.getInstance(
+        document.getElementById("editTodoModal")
+      ).hide();
+    } catch (err) {
+      showToast("Failed to update task. Try again.", "error");
     }
   }
 }

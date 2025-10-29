@@ -5,26 +5,31 @@ import TodoApi from "../api/TodoApi.js";
 const todoAPI = new TodoApi();
 
 export function createTagsHtml(tags) {
-  if (!tags || !Array.isArray(tags) || !tags.length) return '';
+  if (!tags || !Array.isArray(tags) || !tags.length) return "";
   const badges = tags
-    .filter(tag => tag.trim())
-    .map(tag => `<span class="badge fw-light rounded-pill bg-info tags-bg me-1">${tag.trim().toLowerCase()}</span>`)
-    .join('');
+    .filter((tag) => tag.trim())
+    .map(
+      (tag) =>
+        `<span class="badge fw-light rounded-pill bg-info tags-bg me-1 tag-badge">${tag
+          .trim()
+          .toLowerCase()}</span>`
+    )
+    .join("");
   return `<div class="d-flex flex-wrap mb-1">${badges}</div>`;
 }
 
 export function OTPInput(inputs) {
   for (let i = 0; i < inputs.length; i++) {
-    inputs[i].addEventListener('keydown', function (event) {
+    inputs[i].addEventListener("keydown", function (event) {
       if (event.key === "Backspace") {
-        inputs[i].value = ''; if (i !== 0) inputs[i - 1].focus();
+        inputs[i].value = "";
+        if (i !== 0) inputs[i - 1].focus();
       } else {
-        if (i === inputs.length - 1 && inputs[i].value !== '') {
+        if (i === inputs.length - 1 && inputs[i].value !== "") {
           return true;
         } else if (event.keyCode > 47 && event.keyCode < 58) {
           inputs[i].value = event.key;
-          if (i !== inputs.length - 1)
-            inputs[i + 1].focus();
+          if (i !== inputs.length - 1) inputs[i + 1].focus();
           event.preventDefault();
         } else if (event.keyCode > 64 && event.keyCode < 91) {
           inputs[i].value = String.fromCharCode(event.keyCode);
@@ -40,7 +45,6 @@ export async function updateTask(taskId, updates) {
   try {
     await todoAPI.updateTask(taskId, updates);
     renderTodos();
-
   } catch (error) {
     showToast("Failed to update task. Please try again.", "error");
     renderTodos();
@@ -56,12 +60,13 @@ export async function renderTodos(searchTerm = "", searchCategory = "") {
     if (todoMain.todoList) {
       todoMain.todoList.innerHTML = "";
     } else {
-      console.error('todoList not found');
+      console.error("todoList not found");
     }
 
     if (!taskArray.length) {
       const emptyMessage = document.createElement("li");
-      emptyMessage.className = "list-group-item text-center p-3 text-white border-0 bg-transparent";
+      emptyMessage.className =
+        "list-group-item text-center p-3 text-white border-0 bg-transparent";
       emptyMessage.textContent = "No tasks found. Start adding or searching!";
       todoMain.todoList.appendChild(emptyMessage);
     } else {
@@ -70,16 +75,17 @@ export async function renderTodos(searchTerm = "", searchCategory = "") {
       });
     }
   } catch (error) {
-    todoMain.todoList.innerHTML = '<div class="alert alert-danger text-center" role="alert"> <p class="bg-light"> Failed to load tasks. </p></div>';
+    todoMain.todoList.innerHTML =
+      '<div class="alert alert-danger text-center" role="alert"> <p class="bg-light"> Failed to load tasks. </p></div>';
     showToast(error.message);
     console.error(error);
   }
-};
-
+}
 
 export function createTaskElement(task) {
   const li = document.createElement("li");
-  li.className = "list-group-item d-md-flex justify-content-between flex-column border border-danger";
+  li.className =
+    "list-group-item d-md-flex justify-content-between flex-column border border-danger";
   li.dataset.id = task._id;
 
   if (task.completed) {
@@ -102,11 +108,17 @@ export function createTaskElement(task) {
   li.innerHTML = `
     <div class="d-flex align-items-center justify-content-center justify-content-md-between">
       <div class="d-flex">
-        <input type="checkbox" class="form-check-input done-toggle me-2" ${task.completed ? "checked" : ""}>
+        <input type="checkbox" class="form-check-input done-toggle me-2" ${
+          task.completed ? "checked" : ""
+        }>
         <span class="task-text flex-grow-1">${task.title}</span>
-        <input type="text" class="form-control edit-input" style="display: none;" value="${task.title}">
+        <input type="text" class="form-control edit-input" style="display: none;" value="${
+          task.title
+        }">
         </div> 
-        <span class="${priorityClass}">${task.priority === 3 ? "High" : task.priority === 2 ? "Medium" : "Low"}</span>
+        <span class="${priorityClass}">${
+    task.priority === 3 ? "High" : task.priority === 2 ? "Medium" : "Low"
+  }</span>
       <div class="btn-group gap-2 ms-2"> 
         <button class="btn btn-sm edit-btn rounded-1" data-id="${task._id}">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="pointer-events: none;">
@@ -134,4 +146,4 @@ export function fileUpload(method, file) {
 
   data.body = file;
   return data;
-};
+}

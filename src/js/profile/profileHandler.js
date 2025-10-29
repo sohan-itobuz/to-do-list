@@ -1,25 +1,19 @@
-// const emailSpan = document.getElementById('user-email');
-// const logoutBtn = document.getElementById('logout-btn');
 import { profile } from "../dom/domHandler.js";
 import { showToast } from "../utils/showToast.js";
-import { changeImage } from "./eventHandlers.js";
 import TodoApi from "../api/TodoApi.js";
 const todoApi = new TodoApi();
 
 export function profileHandler() {
-  document.addEventListener('DOMContentLoaded', () => {
+  const userEmail = localStorage.getItem("userEmail");
+  const userEmailFirst = userEmail.split("")[0].toUpperCase();
 
-    const userEmail = localStorage.getItem('userEmail');
-    const userEmailFirst = userEmail.split('')[0].toUpperCase();
+  if (userEmail && userEmailFirst && profile.emailSpan) {
+    profile.emailSpan.textContent = userEmailFirst;
+  }
 
-    if (userEmail && userEmailFirst && profile.emailSpan) {
-      profile.emailSpan.textContent = userEmailFirst;
-    }
-
-    profile.logoutBtn.addEventListener('click', () => {
-      localStorage.clear();
-      window.location.href = '../pages/loginPage.html';
-    });
+  profile.logoutBtn.addEventListener("click", () => {
+    localStorage.clear();
+    window.location.href = "../pages/loginPage.html";
   });
 }
 
@@ -29,7 +23,6 @@ export async function getUserDetails() {
 
     const email = userData.data.userDetails.email;
     profile.userEmail.innerHTML = email;
-
 
     if (userData.data.userDetails.imagePath) {
       profile.profilePreview.src = userData.data.userDetails.imagePath;
@@ -44,5 +37,3 @@ export async function getUserDetails() {
     showToast(err.message);
   }
 }
-
-profile.profileForm.addEventListener("submit", changeImage);
